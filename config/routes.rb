@@ -1,4 +1,28 @@
 TeamAura::Application.routes.draw do
+  resources :service_locations
+
+  resources :user_locations
+
+  resources :user_roles
+
+  resources :user_services
+
+  resources :location_hours
+
+  resources :payments
+
+  resources :addons
+
+  resources :appointments
+
+  resources :services
+
+  resources :locations
+
+  resources :companies
+
+  resources :roles
+
   resources :users
 
   # The priority is based upon order of creation: first created -> highest priority.
