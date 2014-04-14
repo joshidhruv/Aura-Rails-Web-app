@@ -1,0 +1,61 @@
+<%= form_for(@appointment) do |f| %>
+  <% if @appointment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
+
+      <ul>
+      <% @appointment.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :guest_id %><br>
+    <%= f.number_field :guest_id %>
+  </div>
+  <div class="field">
+    <%= f.label :host_id %><br>
+    <%= f.number_field :host_id %>
+  </div>
+  <div class="field">
+    <%= f.label :location_id %><br>
+    <%= f.number_field :location_id %>
+  </div>
+  <div class="field">
+    <%= f.label :service_id %><br>
+    <%= f.number_field :service_id %>
+  </div>
+  <div class="field">
+    <%= f.label :cost %><br>
+    <%= f.text_field :cost %>
+  </div>
+  <div class="field">
+    <%= f.label :datetime_begin %><br>
+    <%= f.datetime_select :datetime_begin %>
+  </div>
+  <div class="field">
+    <%= f.label :datetime_end %><br>
+    <%= f.datetime_select :datetime_end %>
+  </div>
+  <div class="field">
+    <%= f.label :notification_on %><br>
+    <%= f.check_box :notification_on %>
+  </div>
+  <div class="field">
+    <%= f.label :notification_sent %><br>
+    <%= f.check_box :notification_sent %>
+  </div>
+  <div class="field">
+    <%= f.label :accepted %><br>
+    <%= f.check_box :accepted %>
+  </div>
+  <div class="field">
+    <%= f.label :completed %><br>
+    <%= f.check_box :completed %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,1 @@
+json.extract! @appointment, :id, :guest_id, :host_id, :location_id, :service_id, :cost, :datetime_begin, :datetime_end, :notification_on, :notification_sent, :accepted, :completed, :created_at, :updated_at

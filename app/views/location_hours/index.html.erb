@@ -1,0 +1,31 @@
+<h1>Listing location_hours</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Location</th>
+      <th>Open</th>
+      <th>Close</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @location_hours.each do |location_hour| %>
+      <tr>
+        <td><%= location_hour.location_id %></td>
+        <td><%= location_hour.open %></td>
+        <td><%= location_hour.close %></td>
+        <td><%= link_to 'Show', location_hour %></td>
+        <td><%= link_to 'Edit', edit_location_hour_path(location_hour) %></td>
+        <td><%= link_to 'Destroy', location_hour, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Location hour', new_location_hour_path %>

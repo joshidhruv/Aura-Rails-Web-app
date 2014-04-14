@@ -1,0 +1,25 @@
+<%= form_for(@service_location) do |f| %>
+  <% if @service_location.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@service_location.errors.count, "error") %> prohibited this service_location from being saved:</h2>
+
+      <ul>
+      <% @service_location.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :service_id %><br>
+    <%= f.number_field :service_id %>
+  </div>
+  <div class="field">
+    <%= f.label :location_id %><br>
+    <%= f.number_field :location_id %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
