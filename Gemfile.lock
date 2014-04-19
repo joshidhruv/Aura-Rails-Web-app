@@ -160,11 +160,8 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
-<<<<<<< HEAD
-  fullcalendar-rails
-=======
   devise
->>>>>>> 24f108e773a20c9c2c5cdc412fd5c2624ed5266e
+  fullcalendar-rails
   jbuilder (~> 1.2)
   jquery-rails
   jquery-ui-rails

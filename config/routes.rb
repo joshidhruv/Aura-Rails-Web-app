@@ -1,9 +1,7 @@
 TeamAura::Application.routes.draw do
-<<<<<<< HEAD
-  get "calendar/index"
+
+  get "calendar" => 'calendar#index'
   resources :service_locations
-=======
->>>>>>> 24f108e773a20c9c2c5cdc412fd5c2624ed5266e
 
   resources :addons
 
