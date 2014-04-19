@@ -55,6 +55,7 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     execjs (2.0.2)
+    fullcalendar-rails (1.6.4.0)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -159,7 +160,11 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-rails (~> 4.0.0)
+<<<<<<< HEAD
+  fullcalendar-rails
+=======
   devise
+>>>>>>> 24f108e773a20c9c2c5cdc412fd5c2624ed5266e
   jbuilder (~> 1.2)
   jquery-rails
   jquery-ui-rails
