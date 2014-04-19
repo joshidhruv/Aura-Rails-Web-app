@@ -1,5 +1,23 @@
 TeamAura::Application.routes.draw do
 
+  resources :addons
+
+  resources :payments
+
+  resources :appointments
+
+  resources :services
+
+  resources :user_services
+
+  resources :location_hours
+
+  resources :companies
+
+  resources :locations
+
+  resources :roles
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
