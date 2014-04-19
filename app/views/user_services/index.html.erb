@@ -3,9 +3,6 @@
 <table>
   <thead>
     <tr>
-      <th>User</th>
-      <th>Service</th>
-      <th>Price</th>
       <th></th>
       <th></th>
       <th></th>
@@ -15,9 +12,6 @@
   <tbody>
     <% @user_services.each do |user_service| %>
       <tr>
-        <td><%= user_service.user_id %></td>
-        <td><%= user_service.service_id %></td>
-        <td><%= user_service.price %></td>
         <td><%= link_to 'Show', user_service %></td>
         <td><%= link_to 'Edit', edit_user_service_path(user_service) %></td>
         <td><%= link_to 'Destroy', user_service, method: :delete, data: { confirm: 'Are you sure?' } %></td>

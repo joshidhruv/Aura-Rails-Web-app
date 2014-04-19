@@ -23,7 +23,7 @@ describe LocationHoursController do
   # This should return the minimal set of attributes required to create a valid
   # LocationHour. As you add validations to LocationHour, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "location_id" => "1" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe LocationHoursController do
       it "assigns a newly created but unsaved location_hour as @location_hour" do
         # Trigger the behavior that occurs when invalid params are submitted
         LocationHour.any_instance.stub(:save).and_return(false)
-        post :create, {:location_hour => { "location_id" => "invalid value" }}, valid_session
+        post :create, {:location_hour => {  }}, valid_session
         assigns(:location_hour).should be_a_new(LocationHour)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         LocationHour.any_instance.stub(:save).and_return(false)
-        post :create, {:location_hour => { "location_id" => "invalid value" }}, valid_session
+        post :create, {:location_hour => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe LocationHoursController do
         # specifies that the LocationHour created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        LocationHour.any_instance.should_receive(:update).with({ "location_id" => "1" })
-        put :update, {:id => location_hour.to_param, :location_hour => { "location_id" => "1" }}, valid_session
+        LocationHour.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => location_hour.to_param, :location_hour => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested location_hour as @location_hour" do
@@ -128,7 +128,7 @@ describe LocationHoursController do
         location_hour = LocationHour.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         LocationHour.any_instance.stub(:save).and_return(false)
-        put :update, {:id => location_hour.to_param, :location_hour => { "location_id" => "invalid value" }}, valid_session
+        put :update, {:id => location_hour.to_param, :location_hour => {  }}, valid_session
         assigns(:location_hour).should eq(location_hour)
       end
 
@@ -136,7 +136,7 @@ describe LocationHoursController do
         location_hour = LocationHour.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         LocationHour.any_instance.stub(:save).and_return(false)
-        put :update, {:id => location_hour.to_param, :location_hour => { "location_id" => "invalid value" }}, valid_session
+        put :update, {:id => location_hour.to_param, :location_hour => {  }}, valid_session
         response.should render_template("edit")
       end
     end

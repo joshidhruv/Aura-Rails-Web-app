@@ -23,7 +23,7 @@ describe AddonsController do
   # This should return the minimal set of attributes required to create a valid
   # Addon. As you add validations to Addon, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe AddonsController do
       it "assigns a newly created but unsaved addon as @addon" do
         # Trigger the behavior that occurs when invalid params are submitted
         Addon.any_instance.stub(:save).and_return(false)
-        post :create, {:addon => { "name" => "invalid value" }}, valid_session
+        post :create, {:addon => {  }}, valid_session
         assigns(:addon).should be_a_new(Addon)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Addon.any_instance.stub(:save).and_return(false)
-        post :create, {:addon => { "name" => "invalid value" }}, valid_session
+        post :create, {:addon => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe AddonsController do
         # specifies that the Addon created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Addon.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => addon.to_param, :addon => { "name" => "MyString" }}, valid_session
+        Addon.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => addon.to_param, :addon => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested addon as @addon" do
@@ -128,7 +128,7 @@ describe AddonsController do
         addon = Addon.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Addon.any_instance.stub(:save).and_return(false)
-        put :update, {:id => addon.to_param, :addon => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => addon.to_param, :addon => {  }}, valid_session
         assigns(:addon).should eq(addon)
       end
 
@@ -136,7 +136,7 @@ describe AddonsController do
         addon = Addon.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Addon.any_instance.stub(:save).and_return(false)
-        put :update, {:id => addon.to_param, :addon => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => addon.to_param, :addon => {  }}, valid_session
         response.should render_template("edit")
       end
     end

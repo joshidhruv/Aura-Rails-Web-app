@@ -23,7 +23,7 @@ describe CompaniesController do
   # This should return the minimal set of attributes required to create a valid
   # Company. As you add validations to Company, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe CompaniesController do
       it "assigns a newly created but unsaved company as @company" do
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => { "name" => "invalid value" }}, valid_session
+        post :create, {:company => {  }}, valid_session
         assigns(:company).should be_a_new(Company)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        post :create, {:company => { "name" => "invalid value" }}, valid_session
+        post :create, {:company => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe CompaniesController do
         # specifies that the Company created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Company.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => company.to_param, :company => { "name" => "MyString" }}, valid_session
+        Company.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => company.to_param, :company => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested company as @company" do
@@ -128,7 +128,7 @@ describe CompaniesController do
         company = Company.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => company.to_param, :company => {  }}, valid_session
         assigns(:company).should eq(company)
       end
 
@@ -136,7 +136,7 @@ describe CompaniesController do
         company = Company.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Company.any_instance.stub(:save).and_return(false)
-        put :update, {:id => company.to_param, :company => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => company.to_param, :company => {  }}, valid_session
         response.should render_template("edit")
       end
     end

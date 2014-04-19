@@ -3,16 +3,6 @@
 <table>
   <thead>
     <tr>
-      <th>Company</th>
-      <th>Name</th>
-      <th>Address1</th>
-      <th>Address2</th>
-      <th>City</th>
-      <th>State</th>
-      <th>Zip</th>
-      <th>Phone</th>
-      <th>Email</th>
-      <th>Primary</th>
       <th></th>
       <th></th>
       <th></th>
@@ -22,16 +12,6 @@
   <tbody>
     <% @locations.each do |location| %>
       <tr>
-        <td><%= location.company_id %></td>
-        <td><%= location.name %></td>
-        <td><%= location.address1 %></td>
-        <td><%= location.address2 %></td>
-        <td><%= location.city %></td>
-        <td><%= location.state %></td>
-        <td><%= location.zip %></td>
-        <td><%= location.phone %></td>
-        <td><%= location.email %></td>
-        <td><%= location.primary %></td>
         <td><%= link_to 'Show', location %></td>
         <td><%= link_to 'Edit', edit_location_path(location) %></td>
         <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -23,7 +23,7 @@ describe LocationsController do
   # This should return the minimal set of attributes required to create a valid
   # Location. As you add validations to Location, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "company_id" => "1" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe LocationsController do
       it "assigns a newly created but unsaved location as @location" do
         # Trigger the behavior that occurs when invalid params are submitted
         Location.any_instance.stub(:save).and_return(false)
-        post :create, {:location => { "company_id" => "invalid value" }}, valid_session
+        post :create, {:location => {  }}, valid_session
         assigns(:location).should be_a_new(Location)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Location.any_instance.stub(:save).and_return(false)
-        post :create, {:location => { "company_id" => "invalid value" }}, valid_session
+        post :create, {:location => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe LocationsController do
         # specifies that the Location created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Location.any_instance.should_receive(:update).with({ "company_id" => "1" })
-        put :update, {:id => location.to_param, :location => { "company_id" => "1" }}, valid_session
+        Location.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => location.to_param, :location => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested location as @location" do
@@ -128,7 +128,7 @@ describe LocationsController do
         location = Location.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Location.any_instance.stub(:save).and_return(false)
-        put :update, {:id => location.to_param, :location => { "company_id" => "invalid value" }}, valid_session
+        put :update, {:id => location.to_param, :location => {  }}, valid_session
         assigns(:location).should eq(location)
       end
 
@@ -136,7 +136,7 @@ describe LocationsController do
         location = Location.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Location.any_instance.stub(:save).and_return(false)
-        put :update, {:id => location.to_param, :location => { "company_id" => "invalid value" }}, valid_session
+        put :update, {:id => location.to_param, :location => {  }}, valid_session
         response.should render_template("edit")
       end
     end

@@ -23,7 +23,7 @@ describe UserServicesController do
   # This should return the minimal set of attributes required to create a valid
   # UserService. As you add validations to UserService, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "user_id" => "1" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe UserServicesController do
       it "assigns a newly created but unsaved user_service as @user_service" do
         # Trigger the behavior that occurs when invalid params are submitted
         UserService.any_instance.stub(:save).and_return(false)
-        post :create, {:user_service => { "user_id" => "invalid value" }}, valid_session
+        post :create, {:user_service => {  }}, valid_session
         assigns(:user_service).should be_a_new(UserService)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         UserService.any_instance.stub(:save).and_return(false)
-        post :create, {:user_service => { "user_id" => "invalid value" }}, valid_session
+        post :create, {:user_service => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe UserServicesController do
         # specifies that the UserService created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        UserService.any_instance.should_receive(:update).with({ "user_id" => "1" })
-        put :update, {:id => user_service.to_param, :user_service => { "user_id" => "1" }}, valid_session
+        UserService.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => user_service.to_param, :user_service => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested user_service as @user_service" do
@@ -128,7 +128,7 @@ describe UserServicesController do
         user_service = UserService.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         UserService.any_instance.stub(:save).and_return(false)
-        put :update, {:id => user_service.to_param, :user_service => { "user_id" => "invalid value" }}, valid_session
+        put :update, {:id => user_service.to_param, :user_service => {  }}, valid_session
         assigns(:user_service).should eq(user_service)
       end
 
@@ -136,7 +136,7 @@ describe UserServicesController do
         user_service = UserService.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         UserService.any_instance.stub(:save).and_return(false)
-        put :update, {:id => user_service.to_param, :user_service => { "user_id" => "invalid value" }}, valid_session
+        put :update, {:id => user_service.to_param, :user_service => {  }}, valid_session
         response.should render_template("edit")
       end
     end

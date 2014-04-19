@@ -23,7 +23,7 @@ describe RolesController do
   # This should return the minimal set of attributes required to create a valid
   # Role. As you add validations to Role, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "name" => "MyString" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe RolesController do
       it "assigns a newly created but unsaved role as @role" do
         # Trigger the behavior that occurs when invalid params are submitted
         Role.any_instance.stub(:save).and_return(false)
-        post :create, {:role => { "name" => "invalid value" }}, valid_session
+        post :create, {:role => {  }}, valid_session
         assigns(:role).should be_a_new(Role)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Role.any_instance.stub(:save).and_return(false)
-        post :create, {:role => { "name" => "invalid value" }}, valid_session
+        post :create, {:role => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe RolesController do
         # specifies that the Role created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Role.any_instance.should_receive(:update).with({ "name" => "MyString" })
-        put :update, {:id => role.to_param, :role => { "name" => "MyString" }}, valid_session
+        Role.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => role.to_param, :role => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested role as @role" do
@@ -128,7 +128,7 @@ describe RolesController do
         role = Role.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Role.any_instance.stub(:save).and_return(false)
-        put :update, {:id => role.to_param, :role => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => role.to_param, :role => {  }}, valid_session
         assigns(:role).should eq(role)
       end
 
@@ -136,7 +136,7 @@ describe RolesController do
         role = Role.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Role.any_instance.stub(:save).and_return(false)
-        put :update, {:id => role.to_param, :role => { "name" => "invalid value" }}, valid_session
+        put :update, {:id => role.to_param, :role => {  }}, valid_session
         response.should render_template("edit")
       end
     end

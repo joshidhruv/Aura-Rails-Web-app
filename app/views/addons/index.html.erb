@@ -3,10 +3,6 @@
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Description</th>
-      <th>Company</th>
       <th></th>
       <th></th>
       <th></th>
@@ -16,10 +12,6 @@
   <tbody>
     <% @addons.each do |addon| %>
       <tr>
-        <td><%= addon.name %></td>
-        <td><%= addon.price %></td>
-        <td><%= addon.description %></td>
-        <td><%= addon.company_id %></td>
         <td><%= link_to 'Show', addon %></td>
         <td><%= link_to 'Edit', edit_addon_path(addon) %></td>
         <td><%= link_to 'Destroy', addon, method: :delete, data: { confirm: 'Are you sure?' } %></td>

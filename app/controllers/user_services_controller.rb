@@ -69,6 +69,6 @@ class UserServicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_service_params
-      params.require(:user_service).permit(:user_id, :service_id, :price)
+      params[:user_service]
     end
 end

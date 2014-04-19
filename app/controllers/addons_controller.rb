@@ -69,6 +69,6 @@ class AddonsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def addon_params
-      params.require(:addon).permit(:name, :price, :description, :company_id)
+      params[:addon]
     end
 end

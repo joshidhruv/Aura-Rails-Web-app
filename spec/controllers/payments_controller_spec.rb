@@ -23,7 +23,7 @@ describe PaymentsController do
   # This should return the minimal set of attributes required to create a valid
   # Payment. As you add validations to Payment, be sure to
   # adjust the attributes here as well.
-  let(:valid_attributes) { { "amount" => "9.99" } }
+  let(:valid_attributes) { {  } }
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
@@ -85,14 +85,14 @@ describe PaymentsController do
       it "assigns a newly created but unsaved payment as @payment" do
         # Trigger the behavior that occurs when invalid params are submitted
         Payment.any_instance.stub(:save).and_return(false)
-        post :create, {:payment => { "amount" => "invalid value" }}, valid_session
+        post :create, {:payment => {  }}, valid_session
         assigns(:payment).should be_a_new(Payment)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
         Payment.any_instance.stub(:save).and_return(false)
-        post :create, {:payment => { "amount" => "invalid value" }}, valid_session
+        post :create, {:payment => {  }}, valid_session
         response.should render_template("new")
       end
     end
@@ -106,8 +106,8 @@ describe PaymentsController do
         # specifies that the Payment created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Payment.any_instance.should_receive(:update).with({ "amount" => "9.99" })
-        put :update, {:id => payment.to_param, :payment => { "amount" => "9.99" }}, valid_session
+        Payment.any_instance.should_receive(:update).with({ "these" => "params" })
+        put :update, {:id => payment.to_param, :payment => { "these" => "params" }}, valid_session
       end
 
       it "assigns the requested payment as @payment" do
@@ -128,7 +128,7 @@ describe PaymentsController do
         payment = Payment.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Payment.any_instance.stub(:save).and_return(false)
-        put :update, {:id => payment.to_param, :payment => { "amount" => "invalid value" }}, valid_session
+        put :update, {:id => payment.to_param, :payment => {  }}, valid_session
         assigns(:payment).should eq(payment)
       end
 
@@ -136,7 +136,7 @@ describe PaymentsController do
         payment = Payment.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
         Payment.any_instance.stub(:save).and_return(false)
-        put :update, {:id => payment.to_param, :payment => { "amount" => "invalid value" }}, valid_session
+        put :update, {:id => payment.to_param, :payment => {  }}, valid_session
         response.should render_template("edit")
       end
     end
