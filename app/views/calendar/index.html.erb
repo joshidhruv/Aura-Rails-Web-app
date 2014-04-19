@@ -1,0 +1,39 @@
+<head>
+  <link rel='stylesheet' type='text/css' href='fullcalendar.css' />
+  <script type='text/javascript' src='jquery.js'></script>
+  <script type='text/javascript' src='fullcalendar.js'></script>
+</head>
+
+<body>
+<div class="container">
+  <div class="row">
+    <div class="dropdown">
+      <a data-toggle="dropdown" href="#" class="btn btn-default ">Staff <b class="caret"></b></a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a href="#">First Link</a></li>
+        <li><a href="#">Second Link</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div id="datepicker" class="col-sm-2"></div>
+    <div id="calendar" class="col-sm-10"></div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#home" data-toggle="tab">Upcoming</a></li>
+        <li><a href="#profile" data-toggle="tab">Pending</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="home">upcoming</div>
+        <div class="tab-pane" id="profile">pending</div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
