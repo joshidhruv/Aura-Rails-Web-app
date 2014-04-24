@@ -1,0 +1,3 @@
+class DefaultController < ApplicationController
+index
+end
