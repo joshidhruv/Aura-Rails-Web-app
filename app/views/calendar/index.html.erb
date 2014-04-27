@@ -4,7 +4,7 @@
   <script type='text/javascript' src='fullcalendar.js'></script>
   <script src='fullcalendar.min.js'></script>
   <script type='text/javascript' src='calendar.js'></script>
-  <script type='text/javascript' src='fullcalendar/gcal.js'></script>
+  <script type='text/javascript' src='calendar/gcal.js'></script>
 </head>
 
 <body>
@@ -48,8 +48,8 @@
       </div>
       <div class="modal-body">
         <form id="createAppointmentForm" class="form-horizontal">
-          <div class="control-group">
-            <div class="controls">
+          <div class="form-group">
+            <div class="col-sm-3">
               <div class="dropdown">
                 <button class="btn dropdown-toggle sr-only" type="button" id="clientDropdown" data-toggle="dropdown">
                   Client Name
@@ -62,18 +62,70 @@
             </div>
           </div>
 
-          <div class="control-group control-row">
-            <label class="control-label" for="apptStartTime">Start:</label>
+          <br>
+
+          <div class="form-inline">
+            <label class="form-control" for="apptStartTime">Start:</label>
             <input id="apptStartTime" class="control-row"/>
-            <label class="control-label" for="apptEndTime">End:</label>
+            <label class="form-control" for="apptEndTime">End:</label>
             <input id="apptEndTime" class="control-row"/>
           </div>
 
-          <div class="control-group">
-            <label class="control-label" for="when">When:</label>
-            <div class="controls controls-row" id="when" style="margin-top:5px;">
-            </div>
+          <br>
+
+          <div class="form-inline">
+            <div class="dropdown">
+              <button class="btn dropdown-toggle sr-only" type="button" id="clientDropdown" data-toggle="dropdown">
+                Staff name
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+              </ul>
+            </div> <!--end of dropdown -->
           </div>
+
+          <br>
+
+          <div class="form-inline">
+            <div class="dropdown">
+              <button class="btn dropdown-toggle sr-only" type="button" id="clientDropdown" data-toggle="dropdown">
+                Service
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+              </ul>
+            </div> <!--end of dropdown -->
+          </div>
+
+          <br>
+
+          <div class="form-inline">
+            <div class="dropdown">
+              <button class="btn dropdown-toggle sr-only" type="button" id="clientDropdown" data-toggle="dropdown">
+                Service type
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
+              </ul>
+            </div> <!--end of dropdown -->
+          </div>
+
+          <br>
+
+          <div class="form-inline">
+            <label class="form-control" for="apptStartTime">Notes: </label>
+            <textarea class="control-row"/></textarea>
+          </div>
+
+          <br>
+
+          <div class="form-inline">
+            <button class="btn btn-default">View payment</button>
+          </div>
+
         </form>
       </div>
       <div class="modal-footer">
