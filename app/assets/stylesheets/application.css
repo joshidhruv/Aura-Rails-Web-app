@@ -11,5 +11,5 @@
  *= require_self
  *= require_tree .
  *= require jquery.ui.all
- *= require fullcalendar
+ *= require ../../../vendor/assets/stylesheets/fullcalendar.css
  */
