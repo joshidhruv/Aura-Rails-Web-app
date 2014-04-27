@@ -26,6 +26,23 @@
 
 
   <!-- Footer -->
+
+  <%
+      concat sanitize '<h1>list</h1>'
+
+     @users.each do |user| %>
+        user email = <%=user.email %><br/>
+        user company_id = <%
+     if(user.company)
+         concat user.company.id
+       else
+         concat sanitize "no company<br/>"
+     end
+
+
+
+  %><br/>
+  <%   end %>
     
   </body>
 </html>
