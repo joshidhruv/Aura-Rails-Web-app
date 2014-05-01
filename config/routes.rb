@@ -1,7 +1,7 @@
 TeamAura::Application.routes.draw do
-
-  get "calendar/index" => 'calendar#index'
-
+  
+  get "account/MyAccount"
+  get "calendar" => 'calendar#index'
   resources :service_locations
 
   resources :addons
@@ -23,10 +23,15 @@ TeamAura::Application.routes.draw do
   resources :roles
 
   devise_for :users
+<<<<<<< HEAD
   root 'default#index'
   resources :default
 
   get 'company/:id/locations' => 'locations#index'
+=======
+  root :to => 'default#index'
+  
+>>>>>>> cbb2778275473f7a1e09403237086d26e835fa94
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
