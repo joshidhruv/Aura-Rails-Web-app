@@ -1,5 +1,6 @@
 TeamAura::Application.routes.draw do
   
+  get "account/MyAccount"
   get "calendar" => 'calendar#index'
   resources :service_locations
 
