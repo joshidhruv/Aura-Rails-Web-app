@@ -2,21 +2,16 @@ $(document).ready(function() {
 
     var calendar, d, date, m, y;
 
-    $("#datepicker").datepicker();
+    $('#datepicker').datepicker({
+        onSelect: function(dateText,dp) {
+            switchView('agendaDay');
+            $('#calendar').fullCalendar('gotoDate',new Date(dateText));
+        }
+    });
 
-//    $('#datepicker').datepicker({
-//        dateFormat: 'DD, d MM, yy',
-//        onSelect: function(dateText,dp){
-//            switchView('agendaDay');
-//            $j('#calendar').fullCalendar('gotoDate',new Date(Date.parse(dateText)));
-//            $j('#calendar').fullCalendar('changeView','agendaDay');
-//        }
-//    });
-//
-//    function switchView(view) {
-//        $('#calendar').fullCalendar('changeView', view);
-//        loadEvents();
-//    };
+    function switchView(view) {
+        $('#calendar').fullCalendar('changeView', view);
+    }
 
 
   //    date store today date.
@@ -43,26 +38,6 @@ $(document).ready(function() {
         selectable: true,
         selectHelper: true,
 
-    //  when user select timeslot this option code will execute.
-    //  It has three arguments. Start,end and allDay.
-    //  Start means starting time of event.
-    //  End means ending time of event.
-//    //  allDay means if events is for entire day or not.
-//        select: function(start, end, allDay) {
-//            var title;
-//            title = prompt("Event Title:");
-//            if (title) {
-//                calendar.fullCalendar("renderEvent", {
-//                    title: title,
-//                    start: start,
-//                    end: end,
-//                    allDay: allDay
-//                }, true);
-//            }
-//            calendar.fullCalendar("unselect");
-//        },
-
-//
 //        events: {
 //            url: 'https://www.google.com/calendar/feeds/aura.planning%40gmail.com/public/basic/'
 //        },
