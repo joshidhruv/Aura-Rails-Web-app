@@ -4,7 +4,11 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.all
+    if @locations.nil?
+      @locations = Location.all
+    else
+      @locations = Location.find_by(:company_id => :id)
+    end
   end
 
   # GET /locations/1
