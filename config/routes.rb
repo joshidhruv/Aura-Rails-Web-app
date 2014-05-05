@@ -23,8 +23,9 @@ TeamAura::Application.routes.draw do
   resources :roles
 
   devise_for :users
+
+  get 'company/:id/locations' => 'locations#index'
   root :to => 'default#index'
-  
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
