@@ -1,0 +1,36 @@
+<%= form_for(@staff, as: :user, url: @form_url, method: :post) do |f| %>
+    <% if @staff.errors.any? %>
+        <div id="error_explanation">
+            <h2><%= pluralize(@staff.errors.count, "error") %> prohibited this addon from being saved:</h2>
+
+            <ul>
+                <% @staff.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+                <% end %>
+            </ul>
+        </div>
+    <% end %>
+
+    <div class="actions">
+        <%= f.label :first_name %>
+        <%= f.text_field :first_name %>
+        <%= f.label :last_name %>
+        <%= f.text_field :last_name %>
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+
+        <fieldset class="horizontal-radio">
+            <h4>Access Level</h4>
+            <table>
+                <tr>
+                <%= f.collection_radio_buttons :role_id, Role.all, :id, :name, {}, {'class'=>'foo'} do |b| %>
+                    <td align="center"><%= b.label %><br/><%= b.radio_button %></td>
+                <% end %>
+                </tr>
+            </table>
+
+        </fieldset>
+        <br/>
+        <%= f.submit 'class'=>'btn btn-primary' %>
+    </div>
+<% end %>
