@@ -1,0 +1,19 @@
+<%
+    if (@staff.id.nil?)
+        @header_label = "Add Staff"
+        @form_url = "/account/staff/create"
+    else
+      @header_label = "Edit Staff"
+      @form_url = "/account/staff/update/"+@staff.id.to_s
+    end
+%>
+<h2><%= @header_label%></h2>
+
+<%= render 'staffForm' %>
+
+<!--
+<%= if !@staff.id.nil?
+      link_to 'Show', '/account/staff/view/'+@staff.id.to_s
+    end %>
+-->
+<%= link_to 'Back', '/account/staff' %>

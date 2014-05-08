@@ -1,0 +1,29 @@
+<h2>Manage Staff</h2>
+
+<table class="record-list">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Role</th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @staffs.each do |staff| %>
+      <tr>
+        <td><%= staff.fullname %></td>
+        <td><%= staff.email %></td>
+        <td><% if !staff.role.nil? %><%= staff.role.name %><% end %></td>
+        <td><%= link_to 'Edit', '/account/staff/edit/'+staff.id.to_s %></td>
+        <td><%= link_to 'Destroy', '/account/staff/delete/'+staff.id.to_s, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Add Staff', '/account/staff/edit/' %>

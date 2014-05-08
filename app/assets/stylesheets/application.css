@@ -13,3 +13,23 @@
  *= require jquery.ui.all
  *= require ../../../vendor/assets/stylesheets/fullcalendar.css
  */
+
+fieldset.horizontal-radio label.foo{
+    display: inline-block;
+    padding: 5px;
+}
+
+table.record-list {
+}
+
+table.record-list th{
+    background-color: #EEE;
+}
+
+table.record-list tr{
+    border-bottom: solid 1px #DDD;
+}
+
+table.record-list td{
+    padding: 5px 10px;
+}
