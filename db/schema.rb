@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140508035405) do
+ActiveRecord::Schema.define(version: 20140508172858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,10 +35,6 @@ ActiveRecord::Schema.define(version: 20140508035405) do
   create_table "location_hours", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "day_of_week"
-    t.date     "open"
-    t.date     "close"
-    t.integer  "location_id"
   end
 
   create_table "locations", force: true do |t|
@@ -54,8 +50,6 @@ ActiveRecord::Schema.define(version: 20140508035405) do
     t.string   "phone"
     t.string   "email"
     t.boolean  "primary"
-    t.date     "days_of_week"
-    t.date     "hours"
   end
 
   create_table "locations_services", id: false, force: true do |t|
