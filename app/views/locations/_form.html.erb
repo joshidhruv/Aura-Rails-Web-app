@@ -1,3 +1,18 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('.checkbox_closed').on('click',function(){
+       var row_id = $(this).attr("row_id");
+       if($(this).is(':checked')){
+           // disable hours
+            $('#'+row_id).find('select').attr('disabled','disabled');
+       } else {
+           // enable hours
+           $('#'+row_id).find('select').removeAttr('disabled','disabled');
+       }
+    });
+  });
+</script>
+
 <%= form_for(@location) do |f| %>
   <% if @location.errors.any? %>
     <div id="error_explanation">
@@ -11,28 +26,46 @@
     </div>
   <% end %>
 
-  <div class="actions">
-    <%= f.label :company_id %>
-    <%= f.text_field :company_id %>
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-    <%= f.label :address1 %>
-    <%= f.text_field :address1 %>
-    <%= f.label :address2 %>
-    <%= f.text_field :address2 %>
-    <%= f.label :city %>
-    <%= f.text_field :city %>
-    <%= f.label :state %>
-    <%= f.text_field :state %>
-    <%= f.label :zip %>
-    <%= f.text_field :zip %>
-    <%= f.label :phone %>
-    <%= f.text_field :phone %>
-    <%= f.label :email %>
-    <%= f.text_field :email %>
-    <%= f.label :primary %>
-    <%= check_box_tag :primary %>
-    <br>
+
+  <div class="actions container-fluid">
+    <div class="col-sm-3">
+        <%= f.label :name %>
+        <%= f.text_field :name %>
+        <%= f.label :address1 %>
+        <%= f.text_field :address1 %>
+        <%= f.label :address2 %>
+        <%= f.text_field :address2 %>
+        <%= f.label :city %>
+        <%= f.text_field :city %>
+        <%= f.label :state %>
+        <%= f.text_field :state %>
+        <%= f.label :zip %>
+        <%= f.text_field :zip %>
+        <%= f.label :phone %>
+        <%= f.text_field :phone %>
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+        <%= f.label :primary %>
+        <%= check_box_tag :primary %>
+        <br>
+    </div>
+    <div class="col-sm-9">
+      <h2>Hours</h2>
+
+      <table>
+      <%= f.fields_for :location_hours do |ff| %>
+            <tr id="hours_row_<%=ff.object.day_of_week%>">
+                  <td><%= ff.object.day_of_week %><%= ff.hidden_field :day_of_week %></td>
+                  <td><%= ff.select :open, options_for_select(@hours, ff.object.open)  %> to <%= ff.select :close, options_for_select(@hours, ff.object.close)  %></td>
+                  <td><%= ff.check_box :closed, :value=>ff.object.closed, :class=>"checkbox_closed", :row_id=>"hours_row_"+ff.object.day_of_week  %> closed</td>
+
+
+
+            </tr>
+      <% end %>
+      </table>
+    </div>
+    <div class="clearboth"></div>
     <%= f.submit %>
   </div>
 <% end %>

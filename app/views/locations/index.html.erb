@@ -1,9 +1,10 @@
 <h1>Listing locations</h1>
 
-<table>
+<table class="record-list">
   <thead>
     <tr>
-      <th></th>
+      <th>Name</th>
+      <th>Location</th>
       <th></th>
       <th></th>
     </tr>
@@ -12,7 +13,8 @@
   <tbody>
     <% @locations.each do |location| %>
       <tr>
-        <td><%= link_to 'Show', location %></td>
+        <td><%= location.name %></td>
+        <td><%= location.city %>, <%= location.state %></td>
         <td><%= link_to 'Edit', edit_location_path(location) %></td>
         <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

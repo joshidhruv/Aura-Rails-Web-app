@@ -4,7 +4,7 @@ class LocationHoursController < ApplicationController
   # GET /location_hours
   # GET /location_hours.json
   def index
-
+    @locations = Location.
     if @locations.nil?
       @location_hours = LocationHour.all
     else
@@ -29,6 +29,8 @@ class LocationHoursController < ApplicationController
   # POST /location_hours
   # POST /location_hours.json
   def create
+
+    puts "************************************"+ location_hour_params.to_s
     @location_hour = LocationHour.new(location_hour_params)
 
     respond_to do |format|
