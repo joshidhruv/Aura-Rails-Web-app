@@ -55,6 +55,8 @@ ActiveRecord::Schema.define(version: 20140510202534) do
     t.string   "phone"
     t.string   "email"
     t.boolean  "primary"
+    t.date     "days_of_week"
+    t.date     "hours"
   end
 
   create_table "locations_services", id: false, force: true do |t|
