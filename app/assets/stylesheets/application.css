@@ -14,6 +14,10 @@
  *= require ../../../vendor/assets/stylesheets/fullcalendar.css
  */
 
+.clearboth{
+    clear: both;
+}
+
 fieldset.horizontal-radio label.foo{
     display: inline-block;
     padding: 5px;
@@ -33,3 +37,4 @@ table.record-list tr{
 table.record-list td{
     padding: 5px 10px;
 }
+
