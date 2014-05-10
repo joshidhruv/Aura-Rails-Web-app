@@ -35,6 +35,10 @@ ActiveRecord::Schema.define(version: 20140508172858) do
   create_table "location_hours", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "day_of_week"
+    t.date     "open"
+    t.date     "close"
+    t.integer  "location_id"
   end
 
   create_table "locations", force: true do |t|
@@ -50,6 +54,8 @@ ActiveRecord::Schema.define(version: 20140508172858) do
     t.string   "phone"
     t.string   "email"
     t.boolean  "primary"
+    t.date     "days_of_week"
+    t.date     "hours"
   end
 
   create_table "locations_services", id: false, force: true do |t|
@@ -70,6 +76,7 @@ ActiveRecord::Schema.define(version: 20140508172858) do
   create_table "roles", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   create_table "roles_users", id: false, force: true do |t|
@@ -102,6 +109,9 @@ ActiveRecord::Schema.define(version: 20140508172858) do
     t.datetime "updated_at"
     t.string   "business_name"
     t.integer  "company_id"
+    t.integer  "role_id"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["company_id"], name: "index_users_on_company_id", using: :btree
