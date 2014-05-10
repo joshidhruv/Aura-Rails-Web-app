@@ -4,7 +4,12 @@ class LocationHoursController < ApplicationController
   # GET /location_hours
   # GET /location_hours.json
   def index
-    @location_hours = LocationHour.all
+
+    if @locations.nil?
+      @location_hours = LocationHour.all
+    else
+      @location_hours = LocationHour.find_by(:location_id => :id)
+    end
   end
 
   # GET /location_hours/1
@@ -69,6 +74,6 @@ class LocationHoursController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_hour_params
-      params[:location_hour]
+      params[:location_hour].permit(:day_of_week, :open, :close, :location_id)
     end
 end
