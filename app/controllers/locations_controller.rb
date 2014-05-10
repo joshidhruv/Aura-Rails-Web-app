@@ -1,14 +1,12 @@
 class LocationsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_location, only: [:show, :edit, :update, :destroy]
 
   # GET /locations
   # GET /locations.json
   def index
-    if @locations.nil?
-      @locations = Location.all
-    else
-      @locations = Location.find_by(:company_id => :id)
-    end
+    @locations = Location.where company_id: current_user.company_id
+
   end
 
   # GET /locations/1
@@ -18,20 +16,59 @@ class LocationsController < ApplicationController
 
   # GET /locations/new
   def new
+    # build from scratch
     @location = Location.new
+    @location.company_id = current_user.company_id #set to same company as admin
+    @days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
+    @hours = LocationHour.business_hours
+    default_open = "9:00am"
+    default_close = "5:00pm"
+
+    @location.location_hours = [
+        LocationHour.new(day_of_week: "Monday", open: default_open, close: default_close),
+        LocationHour.new(day_of_week: "Tuesday", open: default_open, close: default_close),
+        LocationHour.new(day_of_week: "Wednesday", open: default_open, close: default_close),
+        LocationHour.new(day_of_week: "Thursday", open: default_open, close: default_close),
+        LocationHour.new(day_of_week: "Friday", open: default_open, close: default_close),
+        LocationHour.new(day_of_week: "Saturday", open: default_open, close: default_close),
+        LocationHour.new(day_of_week: "Sunday", open: default_open, close: default_close),
+    ]
   end
 
   # GET /locations/1/edit
   def edit
+
+      # existing user, look it up
+      @location = Location.find(params[:id])
+
+      @days = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+
+      @hours = LocationHour.business_hours
+
   end
 
   # POST /locations
   # POST /locations.json
   def create
+    # build new model
     @location = Location.new(location_params)
+    # assign company_id
+    @location.company_id = current_user.company_id.to_i
 
     respond_to do |format|
+      # save Location
       if @location.save
+        # save any sub-objects LocationHours
+        #if !location_hours_params.nil?
+        #  location_hours_params.each do |location_hour_params|
+        #    # save each LocationHours
+        #    @location_hour = LocationHour.new(location_hour_params)
+        #    @location_hour.location_id = @location.id
+        #    @location_hour.save
+        #  end
+        #end
+
         format.html { redirect_to @location, notice: 'Location was successfully created.' }
         format.json { render action: 'show', status: :created, location: @location }
       else
@@ -44,12 +81,28 @@ class LocationsController < ApplicationController
   # PATCH/PUT /locations/1
   # PATCH/PUT /locations/1.json
   def update
+    # get the current record
+    @location = Location.find(params[:id])
+
     respond_to do |format|
-      if @location.update(location_params)
+      # save Location from params
+      @location.update_attributes(location_params)
+      if @location.save
+        # save any sub-objects LocationHours
+        if !location_hours_params.nil?
+          location_hours_params.each do |location_hour_params|
+            # find by id
+            @location_hour = LocationHour.find(location_hour_params[:id])
+            # save each LocationHours form params
+            @location_hour.update_attributes(location_hour_params)
+            @location_hour.save
+          end
+        end
+
         format.html { redirect_to @location, notice: 'Location was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render action: 'show', status: :created, location: @location }
       else
-        format.html { render action: 'edit' }
+        format.html { render action: 'new' }
         format.json { render json: @location.errors, status: :unprocessable_entity }
       end
     end
@@ -73,6 +126,10 @@ class LocationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def location_params
-      params[:location]
+      params[:location].permit(:name, :address1, :address2, :city, :state, :zip, :email, :phone, :primary, :location_hours_attributes => [ :id, :day_of_week, :open, :close, :closed ])
+    end
+
+    def location_hours_params
+      params[:location][:location_hours]
     end
 end

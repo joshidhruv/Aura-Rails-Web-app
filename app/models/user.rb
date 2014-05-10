@@ -10,9 +10,10 @@ class User < ActiveRecord::Base
 
   def fullname
     @fullname = self.first_name
-    if @fullname.length && self.last_name.length
-      @fullname += ' ' + self.last_name
+    if !@fullname.nil? && @fullname.length && self.last_name.length
+      @fullname += ' '
     end
+    @fullname += self.last_name
     return @fullname
   end
 end
