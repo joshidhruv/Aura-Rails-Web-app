@@ -41,6 +41,13 @@ TeamAura::Application.routes.draw do
   post '/account/locations/create', :to =>'locations#create', :as => :create_account_locations_path
   post '/account/locations/update/:id', :to =>'locations#update', :as => :update_account_locations_path
   get '/account/locations/delete/:id', :to =>'locations#destroy', :as => :delete_account_locations_path
+
+  get '/account/services', :to => 'services#index',  :as => :list_account_services_path
+  get '/account/services/new', :to => 'services#new', :as => :new_account_service_path
+  get '/account/services/edit/:id', :to => 'services#edit', :as => :edit_account_service_path
+  post '/account/services/create', :to =>'services#create', :as => :create_account_service_path
+  post '/account/services/update/:id', :to =>'services#update', :as => :update_account_services_path
+  get '/account/services/delete/:id', :to =>'services#destroy', :as => :delete_account_services_path
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
