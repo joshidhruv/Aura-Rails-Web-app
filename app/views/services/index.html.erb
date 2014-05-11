@@ -1,9 +1,12 @@
 <h1>Listing services</h1>
 
-<table>
+<table class="record-list">
   <thead>
     <tr>
-      <th></th>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Duration</th>
       <th></th>
       <th></th>
     </tr>
@@ -12,7 +15,10 @@
   <tbody>
     <% @services.each do |service| %>
       <tr>
-        <td><%= link_to 'Show', service %></td>
+        <td><%= service.name %></td>
+        <td><%= service.description %></td>
+        <td><%= service.price %></td>
+        <td><%= service.minutes_duration %></td>
         <td><%= link_to 'Edit', edit_service_path(service) %></td>
         <td><%= link_to 'Destroy', service, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
