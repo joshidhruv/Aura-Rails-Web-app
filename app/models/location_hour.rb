@@ -1,6 +1,6 @@
 class LocationHour < ActiveRecord::Base
   belongs_to :location
-  attr_accessor :id, :day_of_week, :open, :close, :closed, :location_id
+
 
   def self.business_hours
     hours = Array.new
@@ -22,4 +22,14 @@ class LocationHour < ActiveRecord::Base
     end
     return hours
   end
+
+  #def self.to_s
+  #  s = "{id: " + @id.to_s + ", "
+  #  s += "day_of_week: " + @day_of_week + ", "
+  #  s += "open: " + @open + ", "
+  #  s += "close: " + @close + ", "
+  #  s += "closed: " + @closed.to_s + ", "
+  #  s += "}"
+  #  return s
+  #end
 end
