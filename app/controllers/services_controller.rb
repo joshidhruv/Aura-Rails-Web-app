@@ -34,7 +34,7 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       if @service.save
-        format.html { redirect_to @service, notice: 'Service was successfully created.' }
+        format.html { redirect_to :list_account_services_path, notice: 'Service was successfully created.' }
         format.json { render action: 'show', status: :created, location: @service }
       else
         format.html { render action: 'new' }
@@ -51,7 +51,7 @@ class ServicesController < ApplicationController
 
     respond_to do |format|
       if @service.update(service_params)
-        format.html { redirect_to @service, notice: 'Service was successfully updated.' }
+        format.html { redirect_to :list_account_services_path, notice: 'Service was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
