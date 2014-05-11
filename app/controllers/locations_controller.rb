@@ -78,17 +78,6 @@ class LocationsController < ApplicationController
       # save Location from params
       @location.update_attributes(location_params)
       if @location.save
-        # save any sub-objects LocationHours
-        #if !location_hours_params.nil?
-        #  location_hours_params.each do |location_hour_params|
-        #    # find by id
-        #    @location_hour = LocationHour.find(location_hour_params[:id])
-        #    # save each LocationHours form params
-        #    @location_hour.update_attributes(location_hour_params)
-        #    @location_hour.save
-        #  end
-        #end
-
         format.html { redirect_to :list_account_locations_path, notice: 'Location was successfully updated.' }
         format.json { render action: 'show', status: :created, location: @location }
       else
