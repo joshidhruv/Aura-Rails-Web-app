@@ -120,7 +120,14 @@ class AppointmentsController < ApplicationController
   def unapproved
     @appointments = Appointment.where('company_id = ? AND (accepted = ? OR accepted IS NULL)', current_user.company_id, false )
     respond_to do |format|
-      format.json { render json: @appointments }
+      format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service]) }
+    end
+  end
+
+  def approved
+    @appointments = Appointment.where('company_id = ? AND accepted = ?', current_user.company_id, true )
+    respond_to do |format|
+      format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service]) }
     end
   end
 
