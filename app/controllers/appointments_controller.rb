@@ -53,6 +53,7 @@ class AppointmentsController < ApplicationController
     #convert date string to Datetime object
     @appointment = Appointment.new(appointment_params_parsed)
     @appointment.company_id = current_user.company_id
+    @appointment.accepted = false
 
     # need to ensure there is a User to save as guest
     if !params['newGuest'].nil?
@@ -115,6 +116,14 @@ class AppointmentsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def unapproved
+    @appointments = Appointment.where('company_id = ? AND (accepted = ? OR accepted IS NULL)', current_user.company_id, false )
+    respond_to do |format|
+      format.json { render json: @appointments }
+    end
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
