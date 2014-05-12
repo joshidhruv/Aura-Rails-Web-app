@@ -1,3 +1,30 @@
+<style>
+  #newGuest {
+      padding: 10px;
+      margin: 0px 10px;
+      background-color: #EEE;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+     $('#newGuestCheck').on('click',function(){
+        if($(this).is(':checked')){
+            // show new guest subform, disable dropdown
+            $('#appointment_guest_id').attr('disabled','disabled');
+            $('#showNewGuest').removeClass('hide').find('input').removeAttr('disabled');
+        } else {
+            // hide new guest subform, enable dropdown
+            $('#appointment_guest_id').removeAttr('disabled');
+            $('#showNewGuest').addClass('hide').find('input').attr('disabled','disabled');
+
+        }
+     });
+
+      $('.datepicker').datetimepicker();
+  });
+</script>
+
 <%= form_for(@appointment) do |f| %>
   <% if @appointment.errors.any? %>
     <div id="error_explanation">
@@ -10,6 +37,40 @@
       </ul>
     </div>
   <% end %>
+
+
+    <div class="pull-left">
+      <% if !@guests.nil? %>
+        <%= f.label :guest_id, "Select Existing Guest" %>
+        <%= f.select :guest_id, options_for_select(@guests, f.object.guest_id)  %>
+      <% end %>
+    </div>
+    <div class="pull-left" style="margin: 0px 10px"><h4>OR</h4></div>
+    <div id="newGuest" class="pull-left  img-rounded">
+      Add new guest <input type="checkbox" id="newGuestCheck" name="newGuest" value="1">
+      <div id="showNewGuest" class="hide">
+        <%= fields_for(@newGuest) do |g| %>
+            <%= g.label :email %>
+            <%= g.text_field :email %>
+        <% end %>
+      </div>
+    </div>
+    <div class="clearboth"></div>
+
+    <%= f.label :host_id %>
+    <%= f.select :host_id, options_for_select(@staff, f.object.host_id)  %>
+
+    <%= f.label :service_id %>
+    <%= f.select :service_id, options_for_select(@services.map{ |s| [s.name, s.id, {'data-price'=>s.price}] }, f.object.service_id), :prompt => "Choose Service"  %>
+
+    <%= f.label :datetime_begin %>
+    <%= f.text_field :datetime_begin, :class => "datepicker" %>
+
+    <%= f.label :cost %>
+    <%= f.text_field :cost %>
+
+    <%= f.label :notification_on %>
+    <%= f.check_box :notification_on %> Send Notification
 
 
     <%= f.select :location_id, options_for_select(@locations, f.object.location_id)  %>

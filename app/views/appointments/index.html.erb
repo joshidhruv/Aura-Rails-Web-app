@@ -5,9 +5,11 @@
   <tr>
     <th>Date</th>
     <th>Location</th>
-    <th>Start time</th>
+    <th>Time</th>
     <th>Service</th>
     <th>Duration</th>
+    <th>Assigned To</th>
+    <th>Status</th>
     <th></th>
   </tr>
   </thead>
@@ -16,11 +18,14 @@
   <% if !@appointments.nil?
        @appointments.each do |appt| %>
           <tr>
+            <td><%= appt.datestart %></td>
+            <td><%= appt.location.nil? ? '' : appt.location.citystate %></td>
             <td><%= appt.timestart %></td>
-            <td><%= appt.location.nil? ? '' : appt.location.id %></td>
+            <td><%= appt.service.nil? ? '' : appt.service.name %></td>
             <td></td>
-            <td><%= link_to 'Edit', '/account/appointment/edit/'+appt.id.to_s %></td>
-            <td><%= link_to 'Destroy', '/account/appointment/delete/'+appt.id.to_s, data: { confirm: 'Are you sure?' } %></td>
+            <td><%= appt.host.nil? ? '' : appt.host.fullname %></td>
+            <td><%= appt.accepted.nil? ? 'pending' : 'scheduled' %></td>
+            <td><%= link_to 'Edit', '/account/appointment/edit/'+appt.id.to_s %> <%= link_to 'Destroy', '/account/appointment/delete/'+appt.id.to_s, data: { confirm: 'Are you sure?' } %></td>
           </tr>
       <%  end
           end %>
