@@ -1,10 +1,24 @@
-<div class="container-fluid">
+<script>
+  $(document).ready(function() {
+    $('.step-2').hide();
+
+    $('.book-now').bind('click', function() {
+      $('.step-2').show();
+      $('.step-1').hide();
+    });
+
+    $('.datepicker').datetimepicker();
+  });
+
+</script>
+
+<div class="container-fluid step-1">
   <h1>Step 1: Choose a service</h1>
 
   <% @services_available.each do |service| %>
     <div class="row">
       <div class="col-sm-2">
-        <a href="" class="btn btn-default">Book now</a>
+        <button class="btn btn-default book-now">Book Now</button>
       </div>
       <div class="col-sm-2">
         <%= service.name %>
@@ -15,7 +29,22 @@
       <div class="col-sm-2">
         <%= service.minutes_duration %>
       </div>
+      <%= form_for(service) do |f| %>
+        <div class="col-sm-2">
+          <%= f.hidden_field :id %>
+        </div>
+      <% end %>
     </div>
     <hr>
   <% end %>
+</div>
+
+<div class="container-fluid step-2">
+  <h1>Step 2</h1>
+  <div class="row">
+
+    <div class="col-sm-2">
+      <%= link_to 'Change', :pass_companies_location_path %>
+    </div>
+  </div>
 </div>
