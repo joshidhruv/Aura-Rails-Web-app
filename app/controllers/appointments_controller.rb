@@ -2,7 +2,7 @@ class AppointmentsController < ApplicationController
   require 'active_support/all'
   require 'Date'
   before_filter :authenticate_user!
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :approve]
   before_action :set_dropdowns, only: [:new, :create, :update, :edit]
 
   # GET /appointments
@@ -29,6 +29,19 @@ class AppointmentsController < ApplicationController
   def edit
   end
 
+  def approve
+    @appointment.accepted = true
+    if @appointment.save
+      respond_to do |format|
+        format.html { redirect_to :list_account_appointments_path, notice: 'Appointment approved.' }
+        format.json { render action: 'show', status: :created, location: @appointment }
+      end
+    end
+
+
+
+  end
+
   # GET /appointments/book
   def book
     @services_available = Service.where company_id: 2
@@ -38,14 +51,12 @@ class AppointmentsController < ApplicationController
   # POST /appointments.json
   def create
     #convert date string to Datetime object
-    appointment_date = DateTime.strptime(appointment_params['datetime_begin'], '%m/%d/%Y %H:%M')
-    appointment_params['datetime_begin'] = appointment_date
-    @appointment = Appointment.new(appointment_params)
+    @appointment = Appointment.new(appointment_params_parsed)
     @appointment.company_id = current_user.company_id
 
     # need to ensure there is a User to save as guest
     if !params['newGuest'].nil?
-      puts "*****************  New Guest ************** "
+      puts "*****************  New Guest Registration ************** "
       # new guest was created
       @guest = User.new(new_guest_params)
 
@@ -56,7 +67,7 @@ class AppointmentsController < ApplicationController
       user_save_result = @guest.save
 
       if user_save_result
-        puts "*****************  Save Guest: " + user_save_result.to_s
+        #puts "*****************  Save Guest: " + user_save_result.to_s
         # Tell the UserMailer to send a welcome email after save
         UserMailer.welcome_email(@guest,password).deliver
         @appointment.guest_id = @guest.id
@@ -64,9 +75,6 @@ class AppointmentsController < ApplicationController
         # could not create new user because user exists
 
       end
-
-    else
-      puts "******************* NO newGuest"
     end
 
 
@@ -86,8 +94,9 @@ class AppointmentsController < ApplicationController
   # PATCH/PUT /appointments/1
   # PATCH/PUT /appointments/1.json
   def update
+
     respond_to do |format|
-      if @appointment.update(appointment_params)
+      if @appointment.update(appointment_params_parsed)
         format.html { redirect_to :list_account_appointments_path, notice: 'Appointment was successfully updated.' }
         format.json { head :no_content }
       else
@@ -118,6 +127,17 @@ class AppointmentsController < ApplicationController
       params[:appointment].permit(:host_id, :service_id, :datetime_begin, :cost, :notification_on, :location_id, :guest_id )
     end
 
+    def appointment_params_parsed
+      @these_params = appointment_params
+      if !@these_params['datetime_begin'].blank?
+        puts "********************** DATE " + @these_params['datetime_begin'].to_s
+        appointment_date = DateTime.strptime(@these_params['datetime_begin'], '%m/%d/%Y %H:%M')
+        @these_params['datetime_begin'] = appointment_date
+      end
+      return @these_params
+    end
+
+
     def new_guest_params
       params[:user].permit(:email, :first_name, :last_name )
     end
@@ -135,7 +155,16 @@ class AppointmentsController < ApplicationController
       # past clients who are registered in the system
       @guests = {}
       if !current_user.company.appointments.nil?
-        #current_user.company.appointments
+        current_user.company.appointments.select(:guest_id).distinct.each do |appt|
+          if !appt.guest_id.nil?
+            display_name = appt.guest.fullname
+            if !appt.guest.email.nil?
+              display_name += " ("+appt.guest.email+")"
+            end
+            @guests[display_name] = appt.guest.id
+          end
+
+        end
       end
 
       @newGuest = User.new

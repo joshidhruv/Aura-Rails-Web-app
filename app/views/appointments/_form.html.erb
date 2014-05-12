@@ -7,6 +7,13 @@
 </style>
 
 <script type="text/javascript">
+  function populateCostFromService(){
+      //console.log('populating cost from service');
+      var cost = $('#appointment_service_id').find(':selected').attr('data-price');
+      $('#appointment_cost').val(cost);
+      $('#cost_display').text("$"+Math.round(cost));
+  }
+
   $(document).ready(function(){
      $('#newGuestCheck').on('click',function(){
         if($(this).is(':checked')){
@@ -22,6 +29,17 @@
      });
 
       $('.datepicker').datetimepicker();
+
+      // populate cost at page load if service is set
+      if($('#appointment_service_id').val() != ""){
+          populateCostFromService();
+      }
+      // populate cost when service changes
+      $('#appointment_service_id').on('change',function(){
+          console.log('service changed');
+         populateCostFromService();
+      });
+
   });
 </script>
 
@@ -37,46 +55,66 @@
       </ul>
     </div>
   <% end %>
+    <div class="actions">
+    <table>
+    <tr>
+      <td>Location</td>
+      <td><%= f.select :location_id, options_for_select(@locations, f.object.location_id), :prompt => "Choose Location"  %></td>
+    </tr>
+
+      <tr>
+        <td valign="top">Guest</td>
+        <td>
+            <div class="pull-left">
+              <% if !@guests.nil? %>
+                <%= f.select :guest_id, options_for_select(@guests, f.object.guest_id),:prompt => "Existing Guest"  %>
+              <% end %>
+            </div>
+            <div class="pull-left" style="margin: 0px 10px"><h4>OR</h4></div>
+            <div id="newGuest" class="pull-left  img-rounded">
+              Add new guest <input type="checkbox" id="newGuestCheck" name="newGuest" value="1">
+              <div id="showNewGuest" class="hide">
+                <%= fields_for(@newGuest) do |g| %>
+                    <%= g.label :email %>
+                    <%= g.text_field :email %>
+                    <%= g.label :first_name %>
+                    <%= g.text_field :first_name %>
+                    <%= g.label :last_name %>
+                    <%= g.text_field :last_name %>
+                <% end %>
+              </div>
+            </div>
+            <div class="clearboth"></div>
+        </td>
+      </tr>
+      <tr>
+        <td><%= f.label :host_id %></td>
+        <td><%= f.select :host_id, options_for_select(@staff, f.object.host_id), :prompt => "Assign"  %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :service_id %></td>
+        <td><%= f.select :service_id, options_for_select(@services.map{ |s| [s.name, s.id, {'data-price'=>s.price}] }, f.object.service_id), :prompt => "Choose Service"  %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :datetime_begin %></td>
+        <td><%= f.text_field :datetime_begin, :class => "datepicker", :value => @appointment.datetime_begin.strftime("%m/%d/%Y %H:%M") %></td>
+      </tr>
+      <tr>
+        <td><%= f.label :cost %></td>
+        <td><span id="cost_display"></span><%= f.hidden_field :cost %></td>
+      </tr>
+      <tr>
+        <td>Send Notification</td>
+        <td><%= f.check_box :notification_on %></td>
+      </tr>
+        <tr>
+          <td></td>
+          <td><%= f.submit %></td>
+        </tr>
+    </table>
 
 
-    <div class="pull-left">
-      <% if !@guests.nil? %>
-        <%= f.label :guest_id, "Select Existing Guest" %>
-        <%= f.select :guest_id, options_for_select(@guests, f.object.guest_id)  %>
-      <% end %>
-    </div>
-    <div class="pull-left" style="margin: 0px 10px"><h4>OR</h4></div>
-    <div id="newGuest" class="pull-left  img-rounded">
-      Add new guest <input type="checkbox" id="newGuestCheck" name="newGuest" value="1">
-      <div id="showNewGuest" class="hide">
-        <%= fields_for(@newGuest) do |g| %>
-            <%= g.label :email %>
-            <%= g.text_field :email %>
-        <% end %>
-      </div>
-    </div>
-    <div class="clearboth"></div>
-
-    <%= f.label :host_id %>
-    <%= f.select :host_id, options_for_select(@staff, f.object.host_id)  %>
-
-    <%= f.label :service_id %>
-    <%= f.select :service_id, options_for_select(@services.map{ |s| [s.name, s.id, {'data-price'=>s.price}] }, f.object.service_id), :prompt => "Choose Service"  %>
-
-    <%= f.label :datetime_begin %>
-    <%= f.text_field :datetime_begin, :class => "datepicker" %>
-
-    <%= f.label :cost %>
-    <%= f.text_field :cost %>
-
-    <%= f.label :notification_on %>
-    <%= f.check_box :notification_on %> Send Notification
 
 
-    <%= f.select :location_id, options_for_select(@locations, f.object.location_id)  %>
-
-
-  <div class="actions">
-    <%= f.submit %>
   </div>
 <% end %>

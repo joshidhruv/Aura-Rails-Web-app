@@ -43,6 +43,7 @@ table.record-list {
 
 table.record-list th{
     background-color: #EEE;
+    padding: 5px 10px;
 }
 
 table.record-list tr{

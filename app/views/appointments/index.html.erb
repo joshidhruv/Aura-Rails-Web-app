@@ -9,7 +9,10 @@
     <th>Service</th>
     <th>Duration</th>
     <th>Assigned To</th>
+    <th>Guest</th>
+    <th>Guest Email</th>
     <th>Status</th>
+    <th></th>
     <th></th>
   </tr>
   </thead>
@@ -23,9 +26,15 @@
             <td><%= appt.timestart %></td>
             <td><%= appt.service.nil? ? '' : appt.service.name %></td>
             <td></td>
-            <td><%= appt.host.nil? ? '' : appt.host.fullname %></td>
+            <td><%= appt.host_id.nil? ? '' : appt.host.fullname %></td>
+            <td><%= appt.guest_id.nil? ? '' : appt.guest.fullname %></td>
+            <td><%= appt.guest_id.nil? ? '' : appt.guest.email %></td>
             <td><%= appt.accepted.nil? ? 'pending' : 'scheduled' %></td>
-            <td><%= link_to 'Edit', '/account/appointment/edit/'+appt.id.to_s %> <%= link_to 'Destroy', '/account/appointment/delete/'+appt.id.to_s, data: { confirm: 'Are you sure?' } %></td>
+            <td><% if appt.accepted.nil? %>
+                  <%= link_to 'Approve', '/account/appointments/approve/'+appt.id.to_s %>
+                <% end %>
+            </td>
+            <td><%= link_to 'Edit', '/account/appointments/edit/'+appt.id.to_s %> <%= link_to 'Destroy', '/account/appointments/delete/'+appt.id.to_s, data: { confirm: 'Are you sure?' } %></td>
           </tr>
       <%  end
           end %>
