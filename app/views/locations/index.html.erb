@@ -1,20 +1,22 @@
-<h1>Listing locations</h1>
+<h1><%= @company.name %> Locations</h1>
 
 <table class="record-list">
   <thead>
     <tr>
       <th>Name</th>
       <th>Location</th>
+      <th>Address</th>
       <th></th>
       <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @locations.each do |location| %>
+    <% @locations.order('"primary" DESC NULLS LAST, "name" ASC').each do |location| %>
       <tr>
-        <td><%= location.name %></td>
-        <td><%= location.city %>, <%= location.state %></td>
+        <td><b><%= location.name %><%= location.primary ? ' (Primary)':'' %></b></td>
+        <td><%= location.citystate %></td>
+        <td><%= location.address1 %></td>
         <td><%= link_to 'Edit', '/account/locations/edit/'+location.id.to_s %></td>
         <td><%= link_to 'Destroy', '/account/locations/delete/'+location.id.to_s, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>

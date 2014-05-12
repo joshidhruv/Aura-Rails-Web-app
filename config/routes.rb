@@ -40,14 +40,14 @@ TeamAura::Application.routes.draw do
   get '/account/locations/edit/:id', :to => 'locations#edit', :as => :edit_account_location_path
   post '/account/locations/create', :to =>'locations#create', :as => :create_account_locations_path
   post '/account/locations/update/:id', :to =>'locations#update', :as => :update_account_locations_path
-  get '/account/locations/delete/:id', :to =>'locations#destroy', :as => :delete_account_locations_path
+  delete '/account/locations/delete/:id', :to =>'locations#destroy', :as => :delete_account_locations_path
 
   get '/account/services', :to => 'services#index',  :as => :list_account_services_path
   get '/account/services/new', :to => 'services#new', :as => :new_account_service_path
   get '/account/services/edit/:id', :to => 'services#edit', :as => :edit_account_service_path
   post '/account/services/create', :to =>'services#create', :as => :create_account_service_path
   post '/account/services/update/:id', :to =>'services#update', :as => :update_account_services_path
-  get '/account/services/delete/:id', :to =>'services#destroy', :as => :delete_account_services_path
+  delete '/account/services/delete/:id', :to =>'services#destroy', :as => :delete_account_services_path
 
   get '/account/appointments', :to => 'appointments#index',  :as => :list_account_appointments_path
   get '/account/appointments/new', :to => 'appointments#new',  :as => :new_account_appointment_path

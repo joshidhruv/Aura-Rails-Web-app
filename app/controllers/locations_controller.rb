@@ -5,6 +5,7 @@ class LocationsController < ApplicationController
   # GET /locations
   # GET /locations.json
   def index
+    @company = current_user.company
     @locations = Location.where company_id: current_user.company_id
 
   end
@@ -92,7 +93,7 @@ class LocationsController < ApplicationController
   def destroy
     @location.destroy
     respond_to do |format|
-      format.html { redirect_to locations_url }
+      format.html { redirect_to :list_account_locations_path, notice: 'Location deleted.' }
       format.json { head :no_content }
     end
   end
