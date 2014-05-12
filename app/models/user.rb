@@ -10,12 +10,20 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   def fullname
-    @fullname = ''
-    @fullname += self.first_name
-    if !@fullname.nil? && @fullname.length && self.last_name.length
-      @fullname += ' '
+    @fullname = '' #start with a blank to avoid nil problems in the view
+    if !self.first_name.nil?
+      # if first name, append it
+      @fullname += self.first_name
+      if @fullname.length && !self.last_name.nil? && self.last_name.length
+        # if there's also a last name, make a space for it
+        @fullname += ' '
+      end
     end
-    @fullname += self.last_name
+
+    if !self.last_name.nil?
+      @fullname += self.last_name
+    end
+
     return @fullname
   end
 end
