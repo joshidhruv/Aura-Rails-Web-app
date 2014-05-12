@@ -1,8 +1,41 @@
-<head>
-  <!--<link href="http://getbootstrap.com/dist/css/bootstrap.css" rel="stylesheet" type="text/css" />-->
-  <!--<script src="http://getbootstrap.com/dist/js/bootstrap.js"></script>-->
-  
-</head>
+<script type="text/javascript">
+    function renderOneAppt(target_id, appt){
+        console.log(appt);
+        var content = '<b>'+appt.datetime_begin+'</b><br/>'
+        content += '<b>' + appt.service.name + '</b><br/>';
+        content += appt.guest.first_name + ' ' + appt.guest.last_name + '<br/>';
+        content += 'scheduled w/' + appt.host.first_name + ' ' + appt.host.last_name + '<br/>';
+        //content += 'Guest: ' + appt.
+        var display = $('<div>', {
+            html: content
+        });
+        console.log(display);
+        $('#'+target_id).append(display);
+    }
+  $(document).ready(function(){
+      // get approved appointments and populate in approved tab pane
+      $.ajax({
+          url: '/account/appointments/approved'
+      }).done(function(data){
+          //console.log(data);
+          $.each(data, function(index, appt){
+            //console.log(appt);
+            renderOneAppt('appointments_approved', appt);
+          });
+      });
+
+      // get unapproved appointments and populate in approved tab pane
+      $.ajax({
+          url: '/account/appointments/unapproved'
+      }).done(function(data){
+          //console.log(data);
+          $.each(data, function(index, appt){
+              //console.log(appt);
+              renderOneAppt('appointments_unapproved', appt);
+          });
+      });
+  });
+</script>
 
 <body>
   <div class="container">
@@ -17,24 +50,27 @@
     </div> <!-- end of row -->
 
     <div class="row">
-      <div id="datepicker" class="col-sm-3"></div>
+      <div class="col-sm-3">
+        <div id="datepicker"></div>
+        <div>
+          <!-- Nav tabs -->
+          <ul class="nav nav-tabs">
+            <li class="active"><a href="#home" data-toggle="tab">Scheduled</a></li>
+            <li><a href="#profile" data-toggle="tab">Pending</a></li>
+          </ul>
+
+          <!-- Tab panes -->
+          <div class="tab-content">
+            <div class="tab-pane active" id="appointments_approved"></div>
+            <div class="tab-pane" id="appointments_unapproved">here are the pending</div>
+          </div>
+        </div>
+      </div>
       <div id="calendar" class="col-sm-9"></div>
     </div><!-- end of row -->
 
     <div class="row">
-      <div class="col-sm-2">
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs">
-          <li class="active"><a href="#home" data-toggle="tab">Upcoming</a></li>
-          <li><a href="#profile" data-toggle="tab">Pending</a></li>
-        </ul>
 
-        <!-- Tab panes -->
-        <div class="tab-content">
-          <div class="tab-pane active" id="home">upcoming</div>
-          <div class="tab-pane" id="profile">pending</div>
-        </div>
-      </div>
     </div> <!-- end of row -->
 
     <!-- event modal -->

@@ -14,6 +14,5 @@
 //= require jquery_ujs
 //= require jquery.ui.all
 //= require twitter/bootstrap
-//= require turbolinks
 //= require ../../../vendor/assets/javascripts/fullcalendar.js
 //= require_tree .
