@@ -2,29 +2,31 @@
 <p id="notice" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
 
 <h3><%= @company.name %></h3>
+<table style="width: 450px;">
+<% @company.locations.order('"primary" DESC NULLS LAST, "name" ASC').each do |location| %>
+    <tr class="border-bottom">
+      <td class="padding-10" valign="top">
+        <h4><%= location.name %></h4>
 
-<% @company.locations.each do |location| %>
-    <% if (location.primary == TRUE)%>
-        <tr>
-          <br><td><%= location.name %></td>
-          <br><td><%= location.address1%>, <%= location.address2 %></td>
-          <br><td><%= location.city %>, <%= location.state %>,<%= location.zip %></td>
-          <br><td><%= location.phone%></td>
-          <br><td><%= location.email %></td>
-          <% @link="http://maps.googleapis.com/maps/api/staticmap?markers="+location.address1+location.address2+location.city+location.state+location.zip+"&zoom=13&size=400x300&key=AIzaSyChqKCXRa5do8-gn7QfF23uTTtgxbwOdsw" %>
-        </tr>
-    <%end%>
-
-
+        <% if (!location.address1.blank? && !location.citystate.blank?)%>
+            <%= location.address1%>, <%= location.address2 %><br/>
+            <%= location.city %>, <%= location.state %>,<%= location.zip %><br/>
+        <% end %>
+        <% if !location.phone.blank?%>
+            <%= location.phone%><br/>
+        <% end %>
+        <% if !location.email.blank?%>
+            <%= location.email %><br/>
+        <% end %>
+        <a href="<%= '/companies/' + @company.id.to_s + '/location/' + location.id.to_s + '/book' %>"><button class="btn btn-primary">Book Appointment</button></a>
+      </td>
+      <td>
+        <% if (location.primary)%>
+        <% @link="http://maps.googleapis.com/maps/api/staticmap?markers="+location.address1+location.address2+location.city+location.state+location.zip+"&zoom=13&size=400x300&sensor=true" %>
+        <img src="<%= @link %>"/>
+        <% end %>
+      </td>
+    </tr>
 <% end %>
-<br><h3><%= link_to 'Book Here', '/companies/:id/location/:id/book', :class => 'navbar-link' %></h3>
-<img src="<%= @link %>"/>
-<style>
-    img
-    {
-        position:absolute;
-        left:380px;
-        top:120px;
-        z-index:-1;
-    }
-</style>
+</table>
+
