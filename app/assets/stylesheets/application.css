@@ -35,6 +35,12 @@
 .border-bottom{
     border-bottom: solid 1px #DDD;
 }
+.padding-5{
+    padding: 5px 5px;
+}
+.padding-10{
+    padding: 10px 10px;
+}
 
 fieldset.horizontal-radio label.foo{
     display: inline-block;
