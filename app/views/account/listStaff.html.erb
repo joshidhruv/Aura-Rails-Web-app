@@ -1,8 +1,15 @@
+<style>
+  .thumb{
+      width: 15px;
+      height: 15px;
+  }
+</style>
 <h2>Manage Staff</h2>
 
 <table class="record-list">
   <thead>
   <tr>
+    <th></th>
     <th>Name</th>
     <th>Email</th>
     <th>Role</th>
@@ -14,6 +21,7 @@
   <tbody>
   <% @staffs.each do |staff| %>
       <tr>
+        <td><div class="thumb" style="background-color: <%= staff.color %>;"></div></td>
         <td><%= staff.fullname %></td>
         <td><%= staff.email %></td>
         <td><% if !staff.role.nil? %><%= staff.role.name %><% end %></td>

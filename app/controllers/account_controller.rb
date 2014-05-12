@@ -40,6 +40,8 @@ class AccountController < ApplicationController
     password = Devise.friendly_token.first(password_length)
     @staff.password = password
 
+    @staff.color = User.pickColor(@staff.company_id)
+
     respond_to do |format|
       if @staff.save
         format.html { redirect_to '/account/staff', notice: 'Staff member was successfully added with password: '+password }

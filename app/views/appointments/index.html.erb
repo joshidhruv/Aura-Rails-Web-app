@@ -35,7 +35,15 @@
 
   <tbody>
   <% if !@appointments.nil?
-       @appointments.each do |appt| %>
+       @appointments.each do |appt|
+        if appt.cancelled
+            @status = 'cancelled'
+        elsif appt.accepted.nil? || !appt.accepted
+            @status = 'pending'
+        elsif appt.accepted
+            @status = 'scheduled'
+        end
+  %>
           <tr>
             <td><%= appt.datestart %></td>
             <td><%= appt.location.nil? ? '' : appt.location.citystate %></td>
@@ -45,8 +53,8 @@
             <td><%= appt.host_id.nil? ? '' : appt.host.fullname %></td>
             <td><%= appt.guest_id.nil? ? '' : appt.guest.fullname %></td>
             <td><%= appt.guest_id.nil? ? '' : appt.guest.email %></td>
-            <td><%= appt.accepted.nil? || !appt.accepted ? 'pending' : 'scheduled' %></td>
-            <td><% if appt.accepted.nil? || !appt.accepted %>
+            <td><%= @status %></td>
+            <td><% if @status == 'pending' %>
                   <%= link_to 'Approve', '/account/appointments/approve/'+appt.id.to_s %>
                 <% end %>
             </td>
