@@ -2,6 +2,7 @@ class User < ActiveRecord::Base
   belongs_to :company
   accepts_nested_attributes_for :company
   belongs_to :role
+  has_many :appointments
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
