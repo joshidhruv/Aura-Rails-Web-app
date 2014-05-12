@@ -1,10 +1,12 @@
 class AppointmentsController < ApplicationController
+  before_filter :authenticate_user!
   before_action :set_appointment, only: [:show, :edit, :update, :destroy]
+  before_action :set_dropdowns, only: [:new, :edit]
 
   # GET /appointments
   # GET /appointments.json
   def index
-    @appointments = Appointment.all
+    @appointments = Appointment.where company_id: current_user.company_id
   end
 
   # GET /appointments/1
@@ -15,6 +17,10 @@ class AppointmentsController < ApplicationController
   # GET /appointments/new
   def new
     @appointment = Appointment.new
+    # set company
+    @appointment.company_id = current_user.company_id
+
+
   end
 
   # GET /appointments/1/edit
@@ -75,5 +81,17 @@ class AppointmentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def appointment_params
       params[:appointment]
+    end
+
+    def set_dropdowns
+      # get all locations for this company
+      # used for dropdowns on appt form
+      @locations = {}
+      if !current_user.company.locations.nil?
+        current_user.company.locations.each do |location|
+          @locations[location.citystate] = location.id
+        end
+      end
+      return @locations
     end
 end
