@@ -11,6 +11,10 @@
     </div>
   <% end %>
 
+
+    <%= f.select :location_id, options_for_select(@locations, f.object.location_id)  %>
+
+
   <div class="actions">
     <%= f.submit %>
   </div>
