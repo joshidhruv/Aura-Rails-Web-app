@@ -21,8 +21,6 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new
     # set company
     @appointment.company_id = current_user.company_id
-
-
   end
 
   # GET /appointments/1/edit
@@ -49,9 +47,12 @@ class AppointmentsController < ApplicationController
       end
     end
   end
+
   # GET /appointments/book
   def book
-    @services_available = Service.where company_id: 2
+    @services_available = Service.where company_id: current_user.company_id
+    @appointment = Appointment.new
+    @appointment.company_id = 2
   end
 
   # POST /appointments
@@ -60,6 +61,51 @@ class AppointmentsController < ApplicationController
     #convert date string to Datetime object
     @appointment = Appointment.new(appointment_params_parsed)
     @appointment.company_id = current_user.company_id
+    @appointment.accepted = false
+
+    # need to ensure there is a User to save as guest
+    if !params['newGuest'].nil?
+      puts "*****************  New Guest Registration ************** "
+      # new guest was created
+      @guest = User.new(new_guest_params)
+
+      password_length = 8
+      password = Devise.friendly_token.first(password_length)
+      @guest.password = password
+
+      user_save_result = @guest.save
+
+      if user_save_result
+        #puts "*****************  Save Guest: " + user_save_result.to_s
+        # Tell the UserMailer to send a welcome email after save
+        UserMailer.welcome_email(@guest,password).deliver
+        @appointment.guest_id = @guest.id
+      else
+        # could not create new user because user exists
+
+      end
+    end
+
+
+    respond_to do |format|
+      if @appointment.save
+
+
+        format.html { redirect_to :list_account_appointments_path, notice: 'Appointment was successfully created.' }
+        format.json { render action: 'show', status: :created, location: @appointment }
+      else
+        format.html { render action: 'new' }
+        format.json { render json: @appointment.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # POST /appointments
+  # POST /appointments.json
+  def booked
+    #convert date string to Datetime object
+    @appointment = Appointment.new(appointment_params_parsed)
+    @appointment.company_id = 2
     @appointment.accepted = false
 
     # need to ensure there is a User to save as guest
