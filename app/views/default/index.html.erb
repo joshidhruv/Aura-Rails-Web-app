@@ -1,17 +1,4 @@
 
-<!doctype html>
-<!--[if IE 9]><html class="lt-ie10" lang="en" > <![endif]-->
-<html class="no-js" lang="en" data-useragent="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title> </title>
-
-    <link rel="stylesheet" href="../assets/css/templates/foundation.css" />
-    <script src="../assets/js/modernizr.js"></script>
-  </head>
-  <body>
-    
 
   <!-- Header and Nav -->
 
@@ -26,23 +13,7 @@
 
 
   <!-- Footer -->
-
-  <%
-      concat sanitize '<h1>list</h1>'
-
-     @users.each do |user| %>
-        user email = <%=user.email %><br/>
-        user company_id = <%
-     if(user.company)
-         concat user.company.id
-       else
-         concat sanitize "no company<br/>"
-     end
-
-
-
-  %><br/>
-  <%   end %>
-    
-  </body>
-</html>
+<h1>Company Directory</h1>
+<% @companies.each do |company| %>
+<h3><a href="/companies/<%= company.id%>"><%= company.name %></a></h3>
+<% end %>
