@@ -97,7 +97,7 @@
       </tr>
       <tr>
         <td><%= f.label :datetime_begin %></td>
-        <td><%= f.text_field :datetime_begin, :class => "datepicker", :value => @appointment.datetime_begin.strftime("%m/%d/%Y %H:%M") %></td>
+        <td><%= f.text_field :datetime_begin, :class => "datepicker", :value => @appointment.datetime_begin.nil? ? '' : @appointment.datetime_begin.strftime("%m/%d/%Y %H:%M") %></td>
       </tr>
       <tr>
         <td><%= f.label :cost %></td>

@@ -1,5 +1,21 @@
 <h2>Manage Appointments</h2>
+<script type="text/javascript">
 
+    $(document).ready(function(){
+        $('#getunapproved').on('click', function(e){
+            e.preventDefault();
+            $.ajax({
+                url: '/account/appointments/unapproved'
+            }).done(function(data){
+                console.log(data);
+            });
+        });
+    });
+
+</script>
+
+
+<a href="#" id="getunapproved">Get Unapproved</a><br/>
 <table class="record-list">
   <thead>
   <tr>
@@ -29,8 +45,8 @@
             <td><%= appt.host_id.nil? ? '' : appt.host.fullname %></td>
             <td><%= appt.guest_id.nil? ? '' : appt.guest.fullname %></td>
             <td><%= appt.guest_id.nil? ? '' : appt.guest.email %></td>
-            <td><%= appt.accepted.nil? ? 'pending' : 'scheduled' %></td>
-            <td><% if appt.accepted.nil? %>
+            <td><%= appt.accepted.nil? || !appt.accepted ? 'pending' : 'scheduled' %></td>
+            <td><% if appt.accepted.nil? || !appt.accepted %>
                   <%= link_to 'Approve', '/account/appointments/approve/'+appt.id.to_s %>
                 <% end %>
             </td>
