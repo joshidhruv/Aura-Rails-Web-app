@@ -8,6 +8,6 @@ class DefaultController < ApplicationController
     #  @user1.save
     #end
 
-    @users = User.all()
+    @companies = Company.all()
   end
 end
