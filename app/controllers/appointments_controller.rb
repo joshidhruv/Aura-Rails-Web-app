@@ -21,6 +21,11 @@ class AppointmentsController < ApplicationController
   def edit
   end
 
+  # GET /appointments/book
+  def book
+    @services_available = Service.where company_id: 2
+  end
+
   # POST /appointments
   # POST /appointments.json
   def create
