@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <h1>Step 1: Choose a service</h1>
+
+  <% @services_available.each do |service| %>
+    <div class="row">
+      <div class="col-sm-2">
+        <a href="" class="btn btn-default">Book now</a>
+      </div>
+      <div class="col-sm-2">
+        <%= service.name %>
+      </div>
+      <div class="col-sm-2">
+        <%= service.price %>
+      </div>
+      <div class="col-sm-2">
+        <%= service.minutes_duration %>
+      </div>
+    </div>
+    <hr>
+  <% end %>
+</div>
