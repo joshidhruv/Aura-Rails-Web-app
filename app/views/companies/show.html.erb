@@ -1,4 +1,30 @@
-<p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_company_path(@company) %> |
-<%= link_to 'Back', companies_path %>
+<p id="notice" xmlns="http://www.w3.org/1999/html"><%= notice %></p>
+
+<h3><%= @company.name %></h3>
+
+<% @company.locations.each do |location| %>
+    <% if (location.primary == TRUE)%>
+        <tr>
+          <br><td><%= location.name %></td>
+          <br><td><%= location.address1%>, <%= location.address2 %></td>
+          <br><td><%= location.city %>, <%= location.state %>,<%= location.zip %></td>
+          <br><td><%= location.phone%></td>
+          <br><td><%= location.email %></td>
+          <% @link="http://maps.googleapis.com/maps/api/staticmap?markers="+location.address1+location.address2+location.city+location.state+location.zip+"&zoom=13&size=400x300&key=AIzaSyChqKCXRa5do8-gn7QfF23uTTtgxbwOdsw" %>
+        </tr>
+    <%end%>
+
+
+<% end %>
+<br><h3><%= link_to 'Book Here', '/companies/:id/location/:id/book', :class => 'navbar-link' %></h3>
+<img src="<%= @link %>"/>
+<style>
+    img
+    {
+        position:absolute;
+        left:380px;
+        top:120px;
+        z-index:-1;
+    }
+</style>
