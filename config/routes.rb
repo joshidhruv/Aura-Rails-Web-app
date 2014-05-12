@@ -47,7 +47,7 @@ TeamAura::Application.routes.draw do
   get '/account/services/edit/:id', :to => 'services#edit', :as => :edit_account_service_path
   post '/account/services/create', :to =>'services#create', :as => :create_account_service_path
   post '/account/services/update/:id', :to =>'services#update', :as => :update_account_services_path
-  get '/account/services/delete/:id', :to =>'services#destroy', :as => :delete_account_services_path
+  delete '/account/services/delete/:id', :to =>'services#destroy', :as => :delete_account_services_path
 
   get '/account/appointments', :to => 'appointments#index',  :as => :list_account_appointments_path
   get '/account/appointments/new', :to => 'appointments#new',  :as => :new_account_appointment_path
