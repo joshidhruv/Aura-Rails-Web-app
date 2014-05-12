@@ -1,25 +1,32 @@
-<h1>Listing appointments</h1>
+<h2>Manage Appointments</h2>
 
-<table>
+<table class="record-list">
   <thead>
-    <tr>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
+  <tr>
+    <th>Date</th>
+    <th>Location</th>
+    <th>Start time</th>
+    <th>Service</th>
+    <th>Duration</th>
+    <th></th>
+  </tr>
   </thead>
 
   <tbody>
-    <% @appointments.each do |appointment| %>
-      <tr>
-        <td><%= link_to 'Show', appointment %></td>
-        <td><%= link_to 'Edit', edit_appointment_path(appointment) %></td>
-        <td><%= link_to 'Destroy', appointment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+  <% if !@appointments.nil?
+       @appointments.each do |appt| %>
+          <tr>
+            <td><%= appt.timestart %></td>
+            <td><%= appt.location.nil? ? '' : appt.location.id %></td>
+            <td></td>
+            <td><%= link_to 'Edit', '/account/appointment/edit/'+appt.id.to_s %></td>
+            <td><%= link_to 'Destroy', '/account/appointment/delete/'+appt.id.to_s, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+      <%  end
+          end %>
   </tbody>
 </table>
 
 <br>
 
-<%= link_to 'New Appointment', new_appointment_path %>
+<%= link_to 'New Appointment', :new_account_appointment_path %>
