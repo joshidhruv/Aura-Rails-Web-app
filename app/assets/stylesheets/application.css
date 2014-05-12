@@ -32,6 +32,9 @@
 .clearboth{
     clear: both;
 }
+.border-bottom{
+    border-bottom: solid 1px #DDD;
+}
 
 fieldset.horizontal-radio label.foo{
     display: inline-block;

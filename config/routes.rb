@@ -55,6 +55,7 @@ TeamAura::Application.routes.draw do
   get '/account/appointments/edit/:id', :to => 'appointments#edit',  :as => :edit_account_appointment_path
   post '/account/appointments/update', :to => 'appointments#update',  :as => :update_account_appointment_path
   get '/account/appointments/approve/:id', :to => 'appointments#approve',  :as => :approve_account_appointment_path
+  get '/account/appointments/cancel/:id', :to => 'appointments#cancel',  :as => :cancel_account_appointment_path
   get '/account/appointments/unapproved', :to => 'appointments#unapproved',  :as => :unapproved_account_appointment_path
   get '/account/appointments/approved', :to => 'appointments#approved',  :as => :approved_account_appointment_path
 

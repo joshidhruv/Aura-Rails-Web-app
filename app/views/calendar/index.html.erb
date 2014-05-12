@@ -1,18 +1,112 @@
+<style>
+    .appt-leftnav-block{
+        padding: 5px;
+    }
+</style>
+
 <script type="text/javascript">
+    // populate an appointment info block on the left nav
     function renderOneAppt(target_id, appt){
-        console.log(appt);
-        var content = '<b>'+appt.datetime_begin+'</b><br/>'
+        //console.log(appt);
+        // append appt object to target div
+        var content = '';
+        content += '<b>'+appt.timestart+'</b><br/>'
         content += '<b>' + appt.service.name + '</b><br/>';
         content += appt.guest.first_name + ' ' + appt.guest.last_name + '<br/>';
         content += 'scheduled w/' + appt.host.first_name + ' ' + appt.host.last_name + '<br/>';
         //content += 'Guest: ' + appt.
-        var display = $('<div>', {
-            html: content
+        // build appt info div
+        var $appt_info = $('<div>', {
+            html: content,
+            class: 'pull-left appt-leftnav-block'
         });
-        console.log(display);
-        $('#'+target_id).append(display);
+
+        // build appt button div
+        if(appt.accepted != true){
+            var $appt_button = $('<div>', {
+                html: '<button class="btn btn-success leftnav-approve-button" data-appt-id="' + appt.id + '">Approve</button>',
+                class: 'pull-left appt-leftnav-block'
+            });
+        } else {
+            var $appt_button = $('<div>', {
+                html: '<button class="btn btn-default leftnav-cancel-button" data-appt-id="' + appt.id + '">Cancel</button>',
+                class: 'pull-left appt-leftnav-block'
+            });
+        }
+
+        // combine info and button blocks into appt block div
+        var $appt_block = $('<div>', {
+            class: 'border-bottom',
+            id: 'appt-leftnav-'+appt.id
+        });
+        $appt_block.append($appt_info);
+        $appt_block.append($appt_button);
+        $appt_block.append('<div class="clearboth"></div>');
+
+        // add to page
+        $('#'+target_id).append($appt_block);
+
+        bindApptButtons($appt_block);
+    }
+
+    // enable "Approve" and "Cancel" buttons in left nav
+    function bindApptButtons($target){
+
+        $target.find('.leftnav-approve-button').on('click',function(e){
+            e.preventDefault();
+            approveAppt($(this).attr('data-appt-id'));
+        });
+        $target.find('.leftnav-cancel-button').on('click',function(e){
+            console.log('cancel clicked');
+            e.preventDefault();
+            cancelAppt($(this).attr('data-appt-id'));
+        });
+    }
+
+    // approve appointment by ajax post
+    function approveAppt(id){
+        console.log("Approving id: "+id);
+        // send approve request
+        $.ajax({
+            url: '/account/appointments/approve/'+id
+        }).done(function(appt){
+            console.log(appt);
+
+                // remove the appt block from the "unapproved" pane
+                $('#appt-leftnav-'+appt.id).remove();
+                //render the appointment in the "approved" pane
+                renderOneAppt('appointments_approved', appt);
+
+        }).fail(function(){
+            console.log('could not approve appointment!');
+        });
+    }
+
+    // cancel appointment by ajax post
+    function cancelAppt(id){
+        console.log("Cancelling id: "+id);
+        // send cancel request
+        $.ajax({
+            url: '/account/appointments/cancel/'+id
+        }).done(function(appt){
+            console.log(appt);
+
+            // remove the appt block from the "unapproved" pane
+            $('#appt-leftnav-'+appt.id).remove();
+
+        }).fail(function(){
+            console.log('could not cancel appointment!');
+        });
     }
   $(document).ready(function(){
+
+      // enable nav tabs
+      $('.nav-tabs a').click(function (e) {
+          e.preventDefault();
+          $(this).tab('show');
+      });
+
+
       // get approved appointments and populate in approved tab pane
       $.ajax({
           url: '/account/appointments/approved'
@@ -34,6 +128,8 @@
               renderOneAppt('appointments_unapproved', appt);
           });
       });
+
+
   });
 </script>
 
@@ -55,14 +151,14 @@
         <div>
           <!-- Nav tabs -->
           <ul class="nav nav-tabs">
-            <li class="active"><a href="#home" data-toggle="tab">Scheduled</a></li>
-            <li><a href="#profile" data-toggle="tab">Pending</a></li>
+            <li class="active"><a href="#appointments_approved" data-toggle="tab">Scheduled</a></li>
+            <li><a href="#appointments_unapproved" data-toggle="tab">Pending</a></li>
           </ul>
 
           <!-- Tab panes -->
           <div class="tab-content">
-            <div class="tab-pane active" id="appointments_approved"></div>
-            <div class="tab-pane" id="appointments_unapproved">here are the pending</div>
+            <div class="tab-pane active clearboth" id="appointments_approved"></div>
+            <div class="tab-pane clearboth" id="appointments_unapproved"></div>
           </div>
         </div>
       </div>
