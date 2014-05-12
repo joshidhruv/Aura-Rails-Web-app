@@ -27,4 +27,30 @@ class Appointment < ActiveRecord::Base
       return datetime_begin.strftime("%m/%d/%Y")
     end
   end
+
+  # title, start, end = formatting for calendar feed
+  def title
+    if !service_id.nil? && !host_id.nil?
+      return service.name + ' w/ ' + host.fullname
+    end
+  end
+  def start
+    if !datetime_begin.nil?
+      return datetime_begin.strftime("%Y-%m-%d %H:%M:00")
+    end
+  end
+  def end
+    if !datetime_end.nil?
+      return datetime_end.strftime("%Y-%m-%d %H:%M:00")
+    end
+  end
+  def allDay
+    if !datetime_end.nil?
+      return false
+    end
+    return true
+  end
+  def color
+    return host.color
+  end
 end

@@ -10,7 +10,7 @@
         //console.log(appt);
         // append appt object to target div
         var content = '';
-        content += '<b>'+appt.timestart+'</b><br/>'
+        content += '<b>'+appt.datestart+'</b> at <b>'+appt.timestart+'</b><br/>'
         content += '<b>' + appt.service.name + '</b><br/>';
         content += appt.guest.first_name + ' ' + appt.guest.last_name + '<br/>';
         content += 'scheduled w/' + appt.host.first_name + ' ' + appt.host.last_name + '<br/>';

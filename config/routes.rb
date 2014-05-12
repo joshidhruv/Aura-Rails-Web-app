@@ -58,6 +58,7 @@ TeamAura::Application.routes.draw do
   get '/account/appointments/cancel/:id', :to => 'appointments#cancel',  :as => :cancel_account_appointment_path
   get '/account/appointments/unapproved', :to => 'appointments#unapproved',  :as => :unapproved_account_appointment_path
   get '/account/appointments/approved', :to => 'appointments#approved',  :as => :approved_account_appointment_path
+  get '/account/events', :to => 'appointments#events',  :as => :events_path
 
   get '/companies/:id', :to => 'companies#show', :as => :list_companies_locations_path
   get '/companies/:id/location/:id/book', :to =>'appointments#index', :as => :pass_companies_location_path

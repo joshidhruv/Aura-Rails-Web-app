@@ -59,8 +59,12 @@ class AppointmentsController < ApplicationController
   def create
     #convert date string to Datetime object
     @appointment = Appointment.new(appointment_params_parsed)
+    # assign company id
     @appointment.company_id = current_user.company_id
+    # accepted is false by default
     @appointment.accepted = false
+    # determine end time from service duration
+    @appointment.datetime_end = @appointment.datetime_begin.advance(:minutes => @appointment.service.minutes_duration)
 
     # need to ensure there is a User to save as guest
     if !params['newGuest'].nil?
@@ -137,6 +141,15 @@ class AppointmentsController < ApplicationController
     respond_to do |format|
       format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
       #format.html { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
+    end
+  end
+
+  def events
+    @appointments = Appointment.where('company_id = ? AND accepted is true AND cancelled is not true', current_user.company_id )
+    @foo = User.pickColor(current_user.company_id)
+    respond_to do |format|
+      format.json { render json: @appointments.to_json(:only => [:id], :methods => [:start, :end, :title, :allDay, :color, :datestart]) }
+      format.html { render json: @appointments.to_json(:only => [:id], :methods => [:start, :end, :title, :allDay, :color, :datestart]) }
     end
   end
 

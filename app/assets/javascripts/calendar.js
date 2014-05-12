@@ -26,6 +26,22 @@ $(document).ready(function() {
 
 //  Initialize fullCalendar and store into variable.
     calendar = $("#calendar").fullCalendar({
+        eventSources: [
+            {
+                url: '/account/events',
+                success: function(data, textStatus, jqXHR){
+                    console.log('SUCCESS')
+                    console.log(data)
+                },
+                //color: 'green',
+                textColor: 'white'
+            }
+
+            // any other event sources...
+
+        ],
+
+
         header: {
             left: "prev,next today",
             center: "title",
@@ -50,24 +66,24 @@ $(document).ready(function() {
             $('#createEventModal #apptEndTime').val(end);
             $('#createEventModal #apptAllDay').val(allDay);
             $('#createEventModal #when').text(mywhen);
-            $('#createEventModal').modal('show');
+            $('#createEventModal').removeClass('hide').modal('show');
         },
 
-        editable: true
+        editable: true//,
 
 //  sample json events
 //        events: [
 //            {
 //                title: "All Day Event",
-//                start: new Date(y, m, 1)
+//                start: new Date(y, m, 14)
 //            }, {
 //                title: "Long Event",
-//                start: new Date(y, m, d - 5),
-//                end: new Date(y, m, d - 2)
+//                start: new Date(y, m, d +1),
+//                end: new Date(y, m, d +3)
 //            }, {
 //                id: 999,
 //                title: "Repeating Event",
-//                start: new Date(y, m, d - 3, 16, 0),
+//                start: new Date(y, m, d + 1, 16, 0),
 //                allDay: false
 //            }, {
 //                id: 999,
@@ -86,7 +102,7 @@ $(document).ready(function() {
     });
 
     function doSubmit(){
-        $("#createEventModal").modal('hide');
+        $("#createEventModal").addClass('hide').modal('hide');
         console.log($('#apptStartTime').val());
         console.log($('#apptEndTime').val());
         console.log($('#apptAllDay').val());
