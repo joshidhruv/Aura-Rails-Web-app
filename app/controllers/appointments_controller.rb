@@ -2,7 +2,7 @@ class AppointmentsController < ApplicationController
   require 'active_support/all'
   require 'Date'
   before_filter :authenticate_user!
-  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :approve]
+  before_action :set_appointment, only: [:show, :edit, :update, :destroy, :approve, :cancel]
   before_action :set_dropdowns, only: [:new, :create, :update, :edit]
 
   # GET /appointments
@@ -29,19 +29,26 @@ class AppointmentsController < ApplicationController
   def edit
   end
 
+  # GET /account/appointments/approve/1
   def approve
     @appointment.accepted = true
     if @appointment.save
       respond_to do |format|
+        format.json { render json: @appointment.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
         format.html { redirect_to :list_account_appointments_path, notice: 'Appointment approved.' }
-        format.json { render action: 'show', status: :created, location: @appointment }
       end
     end
-
-
-
   end
-
+  # GET /account/appointments/cancel/1
+  def cancel
+    @appointment.cancelled = true
+    if @appointment.save
+      respond_to do |format|
+        format.json { render json: @appointment.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
+        format.html { redirect_to :list_account_appointments_path, notice: 'Appointment cancelled.' }
+      end
+    end
+  end
   # GET /appointments/book
   def book
     @services_available = Service.where company_id: 2
@@ -118,16 +125,18 @@ class AppointmentsController < ApplicationController
   end
 
   def unapproved
-    @appointments = Appointment.where('company_id = ? AND (accepted = ? OR accepted IS NULL)', current_user.company_id, false )
+    @appointments = Appointment.where('company_id = ? AND (accepted is not true) AND (cancelled is not true)', current_user.company_id )
     respond_to do |format|
-      format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service]) }
+      format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
+      #format.html { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
     end
   end
 
   def approved
-    @appointments = Appointment.where('company_id = ? AND accepted = ?', current_user.company_id, true )
+    @appointments = Appointment.where('company_id = ? AND accepted is true AND cancelled is not true', current_user.company_id )
     respond_to do |format|
-      format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service]) }
+      format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
+      #format.html { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
     end
   end
 
