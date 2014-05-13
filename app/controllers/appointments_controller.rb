@@ -1,6 +1,6 @@
 class AppointmentsController < ApplicationController
   require 'active_support/all'
-  require 'Date'
+  require 'date'
   before_filter :authenticate_user!
   before_action :set_appointment, only: [:show, :edit, :update, :destroy, :approve, :cancel]
   before_action :set_dropdowns, only: [:new, :create, :update, :edit]
