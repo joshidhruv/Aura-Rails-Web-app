@@ -1,6 +1,7 @@
 class LocationHour < ActiveRecord::Base
   belongs_to :location
 
+  DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
 
   def self.business_hours
     hours = Array.new

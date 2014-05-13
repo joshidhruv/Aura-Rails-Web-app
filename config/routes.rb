@@ -41,6 +41,7 @@ TeamAura::Application.routes.draw do
   post '/account/locations/create', :to =>'locations#create', :as => :create_account_locations_path
   post '/account/locations/update/:id', :to =>'locations#update', :as => :update_account_locations_path
   delete '/account/locations/delete/:id', :to =>'locations#destroy', :as => :delete_account_locations_path
+  get '/locations/:id/hours/:day_of_week_id', :to => 'locations#hoursOpen', :as => :location_hours_path
 
   get '/account/services', :to => 'services#index',  :as => :list_account_services_path
   get '/account/services/new', :to => 'services#new', :as => :new_account_service_path

@@ -1,50 +1,152 @@
 <script>
-  $(document).ready(function() {
-    $('.step-2').hide();
+  var DAYS = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
-    $('.book-now').bind('click', function() {
-      $('.step-2').show();
-      $('.step-1').hide();
+  function chooseService(id){
+      console.log('selecting service #service-row-'+id);
+      // hide all other services
+      $('.step-1 tr').not('#service-row-'+id).addClass('hide');
+
+      // change "book now" button to "change"
+      $('#service-button-'+id).removeClass('btn-success').addClass('btn-danger').text('Change');
+
+      // set service_id in form
+      $('#new_appointment #appointment_service_id').val(id);
+
+      // show step 2
+      $('.step-2').removeClass('hide');
+
+  }
+
+  function showAvailableTimes(){
+      var date = $('#appointment-datepicker').datepicker('getDate');
+
+      var d = date.getMonth()+1;
+      d += '/' + date.getDate() + '/' + date.getFullYear();
+
+      var dayOfWeek = date.getUTCDay();
+      var location_id = $('#new_appointment #appointment_location_id').val();
+
+      $('#step-2-day-of-week').text(DAYS[dayOfWeek]);
+      $('#step-2-date').text(d);
+
+      $.ajax({
+          url: '/locations/'+location_id+'/hours/'+dayOfWeek
+      }).done(function(data){
+          var hours = data[0];
+          if(hours.closed == 1){
+              $('#step-2-hours').addClass('hide');
+              $('#step-2-hours-closed').removeClass('hide');
+          } else {
+              $('#step-2-hours-closed').addClass('hide');
+              $('#step-2-hours').removeClass('hide');
+              $('#step-2-open').text(hours.open);
+              $('#step-2-close').text(hours.close);
+          }
+      });
+
+      //console.log(dayOfWeek);
+  }
+
+  $(document).ready(function() {
+    $('.book-now').on('click', function() {
+        chooseService($(this).attr('data-id'));
+        if(!$('#new_appointment').find("#appointment_guest_id").val().length){
+            console.log('not logged in');
+            $('#signup-form').removeClass('hide');
+        }
     });
 
-    $('.datepicker').datetimepicker();
+    $('#appointment-datepicker').datepicker({
+        onSelect: showAvailableTimes,
+        minDate: 0
+    });
+
+    showAvailableTimes();
   });
 
 </script>
 
-<div class="container-fluid step-1">
-  <h1>Step 1: Choose a service</h1>
+<!-- header -->
+<div class="well well-lg">
+  <div class="pull-left"><h1><%= @company.name %></h1></div>
+  <div class="pull-left margin-left-10">
+    <% if (!@location.address1.blank? && !@location.citystate.blank?)%>
+        <h5>
+          <%= @location.address1%>
+          <% if !@location.address2.blank? %>
+              , <%= @location.address2 %>
+          <% end %>
+          <br/>
+          <%= @location.citystate %>
+        </h5>
+    <% end %>
+  </div>
+  <div class="clearboth"></div>
+</div>
+<!-- /header -->
 
-  <% @services_available.each do |service| %>
-    <div class="row">
-      <div class="col-sm-2">
-        <button class="btn btn-default book-now">Book Now</button>
-      </div>
-      <div class="col-sm-2">
-        <%= service.name %>
-      </div>
-      <div class="col-sm-2">
-        <%= service.price %>
-      </div>
-      <div class="col-sm-2">
-        <%= service.minutes_duration %>
-      </div>
-      <%= form_for(service) do |f| %>
-        <div class="col-sm-2">
-          <%= f.hidden_field :id %>
-        </div>
+<div class="step-1">
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading"><h2>Step 1: Choose a service</h2></div>
+      <!-- Table -->
+      <table class="table">
+      <% @services_available.each do |service| %>
+
+        <tr id="service-row-<%= service.id %>" class="border-bottom">
+          <td style="width: 140px;">
+            <button id="service-button-<%= service.id %>" data-id="<%= service.id %>" class="btn btn-success book-now">Book Now</button>
+          </td>
+          <td>
+            <h4><%= service.name %></h4>
+            <%= service.description %>
+          </td>
+          <td>
+            <%= number_to_currency(service.price) %>
+          </td>
+          <td>
+            <%= service.minutes_duration %> minutes
+          </td>
+        </tr>
       <% end %>
-    </div>
-    <hr>
-  <% end %>
+      </table>
+  </div>
 </div>
 
-<div class="container-fluid step-2">
-  <h1>Step 2</h1>
-  <div class="row">
+<div class="step-2 hide">
+  <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <div class="panel-heading"><h2>Step 2: Choose appointment time</h2></div>
+    <div class="panel-body">
+      <div class="pull-left">
+        <div id="appointment-datepicker"></div>
+      </div>
+      <div class="pull-left margin-left-10">
+        <span id="step-2-day-of-week"></span> <span id="step-2-date"></span>
+        <div id="step-2-hours">
+            Open <span id="step-2-open"></span> to <span id="step-2-close"></span>
+        </div>
+        <div id="step-2-hours-closed">
+          Closed
+        </div>
+      </div>
 
-    <div class="col-sm-2">
-      <%= link_to 'Change', :pass_companies_location_path %>
+
+      <%= form_for(@appointment) do |f| %>
+          <div class="row">
+            <%= f.hidden_field :service_id %>
+            <%= f.hidden_field :company_id, :value => @company.id %>
+            <%= f.hidden_field :location_id %>
+            <%= f.hidden_field :guest_id, :value => user_signed_in? ? current_user.id : '' %>
+          </div>
+      <% end %>
+
+
+
+      <div id="signup-form" class="hide">
+        You need to register for an account to proceed.
+        <button>sign up</button>
+      </div>
     </div>
   </div>
 </div>
