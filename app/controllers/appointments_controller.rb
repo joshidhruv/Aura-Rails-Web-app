@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   require 'active_support/all'
   require 'date'
-  before_filter :authenticate_user!
+  before_filter :authenticate_user!, except: [:book]
   before_action :set_appointment, only: [:show, :edit, :update, :destroy, :approve, :cancel]
   before_action :set_dropdowns, only: [:new, :create, :update, :edit]
 
@@ -50,9 +50,12 @@ class AppointmentsController < ApplicationController
 
   # GET /appointments/book
   def book
-    @services_available = Service.where company_id: current_user.company_id
+    @company = Company.find(params[:company_id])
+    @location = Location.find(params[:location_id])
+    @services_available = Service.where company_id: params[:company_id]
     @appointment = Appointment.new
-    @appointment.company_id = 2
+    @appointment.company_id = params[:company_id]
+    @appointment.location_id = params[:location_id]
   end
 
   # POST /appointments

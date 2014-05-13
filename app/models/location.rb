@@ -21,4 +21,16 @@ class Location < ActiveRecord::Base
     end
     return @cs
   end
+
+  def hoursOpen(day_of_week_id)
+    @day_of_week = LocationHour::DAYS[day_of_week_id.to_i]
+    @location_hours = self.location_hours.where day_of_week: @day_of_week
+
+  end
+
+  def timesAvailable
+    self.location_hours.each do |day|
+
+    end
+  end
 end
