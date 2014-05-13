@@ -1,19 +1,15 @@
 class Appointment < ActiveRecord::Base
   belongs_to :host, class_name: "User"
-  validates :host_id, :presence => true
-
   belongs_to :guest, class_name: "User"
-  validates :guest_id, :presence => true
-
   belongs_to :service
-  validates :service_id, :presence => true
-
   belongs_to :location
-  validates :location_id, :presence => true
-
   belongs_to :company
-  validates :company_id, :presence => true
 
+  validates :company_id, :presence => true
+  validates :host_id, :presence => true
+  validates :guest_id, :presence => true
+  validates :service_id, :presence => true
+  validates :location_id, :presence => true
   validates :datetime_begin, :presence => true
 
   def timestart
@@ -52,5 +48,27 @@ class Appointment < ActiveRecord::Base
   end
   def color
     return host.color
+  end
+
+  def self.scheduledByDate(company_id, unixstart, unixend)
+    # basic where clause
+    @whereClause = 'company_id = ? AND accepted is true AND cancelled is not true'
+
+    #if passed, limit results by start and end times
+
+    # if start param, convert to datetime
+    if !unixstart.nil?
+      @start = DateTime.strptime(unixstart.to_s,'%s')
+      @whereClause += " AND datetime_begin >= '" + @start.strftime('%Y-%m-%d %H:%M') + "'"
+    end
+    puts "********** start/end " + @start.to_s
+    if !unixend.nil?
+      @end = DateTime.strptime(unixend.to_s,'%s')
+      @whereClause += " AND datetime_begin <= '" + @end.strftime('%Y-%m-%d %H:%M') + "'"
+    end
+    puts "********** start/end " + @end.to_s
+
+
+    @appointments = Appointment.where(@whereClause, company_id )
   end
 end
