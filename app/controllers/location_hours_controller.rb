@@ -78,4 +78,3 @@ class LocationHoursController < ApplicationController
     def location_hour_params
       params[:location_hour].permit(:day_of_week, :open, :close, :location_id)
     end
-end
