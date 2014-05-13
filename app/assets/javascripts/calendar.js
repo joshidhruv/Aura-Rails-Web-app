@@ -29,8 +29,11 @@ $(document).ready(function() {
         eventSources: [
             {
                 url: '/account/events',
+//                data: {
+//                    company_id: global_company_id
+//                },
                 success: function(data, textStatus, jqXHR){
-                    console.log('SUCCESS')
+                    //console.log('SUCCESS')
                     console.log(data)
                 },
                 //color: 'green',

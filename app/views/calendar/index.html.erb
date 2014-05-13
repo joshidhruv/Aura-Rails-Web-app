@@ -5,6 +5,8 @@
 </style>
 
 <script type="text/javascript">
+    global_company_id = <%= user_signed_in? ? current_user.company_id : 'null' %>;
+
     // populate an appointment info block on the left nav
     function renderOneAppt(target_id, appt){
         //console.log(appt);
