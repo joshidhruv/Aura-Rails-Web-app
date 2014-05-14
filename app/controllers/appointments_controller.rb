@@ -3,7 +3,7 @@ class AppointmentsController < ApplicationController
   require 'date'
   before_filter :authenticate_user!, except: [:book]
   before_action :set_appointment, only: [:show, :edit, :update, :destroy, :approve, :cancel]
-  before_action :set_dropdowns, only: [:new, :create, :update, :edit]
+  before_action :set_new_appointment_dropdowns, only: [:new, :create, :update, :edit]
 
   # GET /appointments
   # GET /appointments.json
@@ -73,17 +73,12 @@ class AppointmentsController < ApplicationController
     # check appointment is valid so far
     @appointment.valid?
 
-
-    if(!@appointment.errors.size)
+    if(@appointment.errors.size < 1)
       # if valid and not missing start tiem and service, determine end time from service duration
       if !@appointment.datetime_begin.nil? && !@appointment.service.nil?
         @appointment.datetime_end = @appointment.datetime_begin.advance(:minutes => @appointment.service.minutes_duration)
       end
     end
-
-
-
-
 
 
     # need to ensure there is a User to save as guest
@@ -249,45 +244,5 @@ class AppointmentsController < ApplicationController
       params[:user].permit(:email, :first_name, :last_name )
     end
 
-    def set_dropdowns
-      # get all locations for this company
-      # used for dropdowns on appt form
-      @locations = {}
-      if !current_user.company.locations.nil?
-        current_user.company.locations.each do |location|
-          @locations[location.citystate] = location.id
-        end
-      end
 
-      # past clients who are registered in the system
-      @guests = {}
-      if !current_user.company.appointments.nil?
-        current_user.company.appointments.select(:guest_id).distinct.each do |appt|
-          if !appt.guest_id.nil?
-            display_name = appt.guest.fullname
-            if !appt.guest.email.nil?
-              display_name += " ("+appt.guest.email+")"
-            end
-            @guests[display_name] = appt.guest.id
-          end
-
-        end
-      end
-
-      @newGuest = User.new
-      @newGuest.role_id = Role::ROLE_REGISTERED
-      # current staff list
-      @staff = {}
-      if !current_user.company.users.nil?
-        current_user.company.users.each do |user|
-          @staff[user.fullname] = user.id
-        end
-      end
-
-      # current staff list
-      @services = {}
-      if !current_user.company.services.nil?
-        @services = current_user.company.services
-      end
-    end
 end
