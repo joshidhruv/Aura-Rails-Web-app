@@ -71,3 +71,8 @@ table.record-list td{
     padding: 5px 10px;
 }
 
+.thumb{
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+}
