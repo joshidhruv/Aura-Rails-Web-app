@@ -13,7 +13,7 @@
     <![endif]-->
 
     <!-- [BOOTSTRAP] Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/bootstrap.min.css">
     <!--<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">-->
 
     <%= stylesheet_link_tag "application", :media => "all" %>
@@ -42,7 +42,7 @@
 
     <script src="/assets/timepicker.js"></script>
   </head>
-  <body>
+  <body style="position:relative">
 
     <div class="navbar navbar-fluid-top">
       <div class="navbar-inner">
@@ -93,14 +93,15 @@
           <%= yield %>
         <!--</div>-->
       <!--</div>&lt;!&ndash;/row&ndash;&gt;-->
+    </div>
 
+          <footer style="height: 50px; margin-top: 100px; text-align: center; bottom: 10px; left: 10px; width: 100%;">
 
-          <footer>
+                <p>&copy; Team Aura</p>
+
             <!--
             <nav class="navbar navbar-default navbar-fixed-bottom" role="navigation">
-              <div class="padding-10">
-                <p>&copy; Team Aura</p>
-              </div>
+
             </nav>
             -->
           </footer>

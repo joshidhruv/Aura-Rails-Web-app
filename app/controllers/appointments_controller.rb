@@ -194,7 +194,7 @@ class AppointmentsController < ApplicationController
   end
 
   def unapproved
-    @appointments = Appointment.where('company_id = ? AND (accepted is not true) AND (cancelled is not true)', current_user.company_id )
+    @appointments = Appointment.where('company_id = ? AND (accepted is not true) AND (cancelled is not true)', current_user.company_id ).order('datetime_begin')
     respond_to do |format|
       format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
       #format.html { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
@@ -202,7 +202,7 @@ class AppointmentsController < ApplicationController
   end
 
   def approved
-    @appointments = Appointment.where('company_id = ? AND accepted is true AND cancelled is not true', current_user.company_id )
+    @appointments = Appointment.where('company_id = ? AND accepted is true AND cancelled is not true', current_user.company_id ).order('datetime_begin')
     respond_to do |format|
       format.json { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
       #format.html { render json: @appointments.to_json(:include => [:guest, :host, :location, :service], :methods => [:timestart, :datestart]) }
@@ -214,7 +214,7 @@ class AppointmentsController < ApplicationController
 
     @company_id = current_user.company_id
 
-    @appointments = Appointment.scheduledByDate(@company_id, params[:start], params[:end])
+    @appointments = Appointment.scheduledByDate(@company_id, params[:start], params[:end], params['staff'])
 
     respond_to do |format|
       format.json { render json: @appointments.to_json(:only => [:id], :methods => [:start, :end, :title, :allDay, :color, :datestart]) }

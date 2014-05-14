@@ -50,7 +50,7 @@ class Appointment < ActiveRecord::Base
     return host.color
   end
 
-  def self.scheduledByDate(company_id, unixstart, unixend)
+  def self.scheduledByDate(company_id, unixstart, unixend, staff)
     # basic where clause
     @whereClause = 'company_id = ? AND accepted is true AND cancelled is not true'
 
@@ -65,6 +65,11 @@ class Appointment < ActiveRecord::Base
     if !unixend.nil?
       @end = DateTime.strptime(unixend.to_s,'%s')
       @whereClause += " AND datetime_begin <= '" + @end.strftime('%Y-%m-%d %H:%M') + "'"
+    end
+
+    if !staff.nil?
+
+      @whereClause += " AND host_id IN (" + staff + ")"
     end
     puts "********** start/end " + @end.to_s
 
