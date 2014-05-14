@@ -15,4 +15,5 @@
 //= require jquery.ui.all
 //= require twitter/bootstrap
 //= require ../../../vendor/assets/javascripts/fullcalendar.js
+//= require timepicker
 //= require_tree .
