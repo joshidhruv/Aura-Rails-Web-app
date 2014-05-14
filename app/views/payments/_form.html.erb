@@ -12,6 +12,14 @@
   <% end %>
 
   <div class="actions">
+    <%= f.label :appointment_id %>
+    <%= f.text_field :appointment_id %>
+    <%= f.label :cost %>
+    <%= f.text_field :cost %>
+    <%= f.label :status %>
+    <%= f.radio_button(:status, 'true')%>
+
+
     <%= f.submit %>
   </div>
 <% end %>

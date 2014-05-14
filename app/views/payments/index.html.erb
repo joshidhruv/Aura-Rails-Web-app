@@ -3,15 +3,20 @@
 <table>
   <thead>
     <tr>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Appointment id:</th>
+      <th>Cost</th>
+      <th>Status</th>
     </tr>
   </thead>
 
   <tbody>
     <% @payments.each do |payment| %>
       <tr>
+
+        <td><%= payment.id%></td>
+        <td><%= payment.appointment_id%></td>
+        <td><%= payment.cost%></td>
+        <td><%= payment.status%></td>
         <td><%= link_to 'Show', payment %></td>
         <td><%= link_to 'Edit', edit_payment_path(payment) %></td>
         <td><%= link_to 'Destroy', payment, method: :delete, data: { confirm: 'Are you sure?' } %></td>

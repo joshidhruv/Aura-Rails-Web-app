@@ -65,6 +65,7 @@ TeamAura::Application.routes.draw do
   get '/companies/:id', :to => 'companies#show', :as => :list_companies_locations_path
   get '/companies/:company_id/location/:location_id/book', :to =>'appointments#book', :as => :pass_companies_location_path
   get '/companies/:company_id/location/:location_id/booked', :to =>'appointments#booked', :as => :booked_account_appointment_path
+  get '/payment/:payment_id', :to => 'payment#index', :as => :payment_to_show_appointment
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
