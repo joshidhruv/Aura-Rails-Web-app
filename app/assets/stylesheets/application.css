@@ -76,3 +76,8 @@ table.record-list td{
     height: 15px;
     display: inline-block;
 }
+
+.modal td{
+    padding: 5px;
+    overflow-y: auto;
+}

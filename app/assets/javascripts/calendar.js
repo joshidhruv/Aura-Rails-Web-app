@@ -74,7 +74,7 @@ $(document).ready(function() {
             $('#createEventModal #apptEndTime').val(end);
             $('#createEventModal #apptAllDay').val(allDay);
             $('#createEventModal #when').text(mywhen);
-            $('#createEventModal').removeClass('hide').modal('show');
+            $('#createEventModal').removeClass('hide').modal({backdrop:false});
         },
 
         editable: true//,
