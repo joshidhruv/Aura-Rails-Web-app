@@ -56,6 +56,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.new
     @appointment.company_id = params[:company_id]
     @appointment.location_id = params[:location_id]
+    # @staff = User.where company_id: params[:company_id]
   end
 
   # POST /appointments
