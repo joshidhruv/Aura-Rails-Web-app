@@ -30,9 +30,11 @@ class PaymentsController < ApplicationController
       if @payment.save
         format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @payment }
+        format.json { render action:'post',location: @payment  }
       else
         format.html { render action: 'new' }
         format.json { render json: @payment.errors, status: :unprocessable_entity }
+        format.json { render action:'post',location: @payment  }
       end
     end
   end
