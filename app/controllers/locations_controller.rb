@@ -1,6 +1,6 @@
 class LocationsController < ApplicationController
-  before_filter :authenticate_user!
-  before_action :set_location, only: [:show, :edit, :update, :destroy]
+  before_filter :authenticate_user!, except: [:timesAvailable, :hoursOpen]
+  before_action :set_location, only: [:show, :edit, :update, :destroy, :timesAvailable, :hoursOpen]
 
   # GET /locations
   # GET /locations.json
@@ -13,6 +13,21 @@ class LocationsController < ApplicationController
   # GET /locations/1
   # GET /locations/1.json
   def show
+  end
+
+  def hoursOpen
+    @datestring = set_date
+    respond_to do |format|
+      format.json { render json: @location.hoursOpen(@datestring).to_json(:methods => [:hoursOpen]) }
+      format.html { render json: @location.hoursOpen(@datestring).to_json(:methods => [:hoursOpen]) }
+    end
+  end
+  def timesAvailable
+    @datestring = set_date
+    respond_to do |format|
+      format.json { render json: @location.timesAvailable(@datestring).to_json }
+      format.html { render json: @location.timesAvailable(@datestring).to_json }
+    end
   end
 
   # GET /locations/new
@@ -113,5 +128,10 @@ class LocationsController < ApplicationController
 
     def location_hours_params
       params[:location][:location_hours_attributes]
+    end
+
+    def set_date
+      @datestring = params[:month] + '/' + params[:day] + '/' + params[:year]
+      return @datestring
     end
 end

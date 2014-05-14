@@ -24,14 +24,22 @@ $(document).ready(function() {
     m = date.getMonth();
     y = date.getFullYear();
 
+    //updateVisibleStaff();
+
 //  Initialize fullCalendar and store into variable.
     calendar = $("#calendar").fullCalendar({
         eventSources: [
             {
                 url: '/account/events',
+                data: {
+                    // dynamically get staff from show-staff-form
+                    staff: function(){
+                        return getVisibleStaff();
+                    }
+                },
                 success: function(data, textStatus, jqXHR){
-                    console.log('SUCCESS')
-                    console.log(data)
+                    //console.log('SUCCESS')
+                    //console.log(data)
                 },
                 //color: 'green',
                 textColor: 'white'
