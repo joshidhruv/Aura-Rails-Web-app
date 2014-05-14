@@ -150,11 +150,29 @@
     <!-- Default panel contents -->
     <div class="panel-heading"><h2>Step 2: Choose appointment time</h2></div>
     <div class="panel-body">
-      <div class="pull-left">
-        <!-- datepicker -->
-        <div id="appointment-datepicker"></div>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-3">
+          <!-- datepicker -->
+          <div class="row"><div id="appointment-datepicker"></div></div>
+          <dic class="row">
+            <div>
+              <%= form_for(@appointment) do |f| %>
+                <div class="row">
+                  <%= f.hidden_field :service_id %>
+                  <%= f.hidden_field :company_id, :value => @company.id %>
+                  <%= f.hidden_field :location_id %>
+                  <%= f.hidden_field :guest_id, :value => user_signed_in? ? current_user.id : '' %>
+                  <%= f.label :host_id%>
+                  <%= f.text_field :host_id%>
+                  <%= f.label :datetime_begin%>
+                  <%= f.text_field :datetime_begin%>
+                  <%= f.submit%>
+                </div>
+              <% end %>
+            </div>
+          </dic>
       </div>
-      <div class="pull-left margin-left-10">
+      <div class="col-sm-4">
         <!-- day of the week and Open and Closed -->
         <h3>
             <span id="step-2-day-of-week"></span> <span id="step-2-date"></span>
@@ -174,22 +192,14 @@
         </div>
       </div>
 
+      <div class="col-sm-4">
+        <div id="signup-form" class="hide">
+          You need to register for an account to proceed.
+          <button>sign up</button>
+        </div>
 
-      <%= form_for(@appointment) do |f| %>
-          <div class="row">
-            <%= f.hidden_field :service_id %>
-            <%= f.hidden_field :company_id, :value => @company.id %>
-            <%= f.hidden_field :location_id %>
-            <%= f.hidden_field :guest_id, :value => user_signed_in? ? current_user.id : '' %>
-          </div>
-      <% end %>
-
-
-
-      <div id="signup-form" class="hide">
-        You need to register for an account to proceed.
-        <button>sign up</button>
       </div>
+
     </div>
   </div>
 </div>
