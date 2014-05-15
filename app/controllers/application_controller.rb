@@ -15,8 +15,11 @@ class ApplicationController < ActionController::Base
   def set_new_appointment_dropdowns
     # get all locations for this company
     # used for dropdowns on appt form
+
+    @company = current_user.nil? ? Company.find(params[:company_id]) :  current_user.company
+
     @locations = {}
-    if !current_user.company.locations.nil?
+    if !current_user.nil? && !current_user.company.locations.nil?
       current_user.company.locations.each do |location|
         @locations[location.citystate] = location.id
       end
@@ -24,7 +27,7 @@ class ApplicationController < ActionController::Base
 
     # past clients who are registered in the system
     @guests = {}
-    if !current_user.company.appointments.nil?
+    if !current_user.nil? && !current_user.company.appointments.nil?
       current_user.company.appointments.select(:guest_id).distinct.each do |appt|
         if !appt.guest_id.nil?
           display_name = appt.guest.fullname
@@ -33,7 +36,6 @@ class ApplicationController < ActionController::Base
           end
           @guests[display_name] = appt.guest.id
         end
-
       end
     end
 
@@ -41,16 +43,17 @@ class ApplicationController < ActionController::Base
     @newGuest.role_id = Role::ROLE_REGISTERED
     # current staff list
     @staff = {}
-    if !current_user.company.users.nil?
-      current_user.company.users.each do |user|
+
+
+    if !@company.users.nil?
+      @company.users.each do |user|
         @staff[user.fullname] = user.id
       end
     end
-
     # current staff list
     @services = {}
-    if !current_user.company.services.nil?
-      @services = current_user.company.services
+    if !@company.services.nil?
+      @services = @company.services
     end
   end
 end

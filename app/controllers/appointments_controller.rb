@@ -3,7 +3,7 @@ class AppointmentsController < ApplicationController
   require 'date'
   before_filter :authenticate_user!, except: [:book]
   before_action :set_appointment, only: [:show, :edit, :update, :destroy, :approve, :cancel]
-  before_action :set_new_appointment_dropdowns, only: [:new, :create, :update, :edit]
+  before_action :set_new_appointment_dropdowns, only: [:new, :create, :update, :edit, :book]
 
   # GET /appointments
   # GET /appointments.json
@@ -57,6 +57,7 @@ class AppointmentsController < ApplicationController
     @company = Company.find(params[:company_id])
     @location = Location.find(params[:location_id])
     @services_available = Service.where company_id: params[:company_id]
+    @hosts = User.where company_id: params[:company_id]
     @appointment = Appointment.new
     @appointment.company_id = params[:company_id]
     @appointment.location_id = params[:location_id]
@@ -113,8 +114,14 @@ class AppointmentsController < ApplicationController
     respond_to do |format|
       if @appointment.save
 
+        # customer returnUrl from form fo public originated appointments
+        if !params['returnUrl'].nil?
+          @notice = "You booked an appointment with " + @appointment.company.name
+          format.html { redirect_to params[:returnUrl], notice: @notice }
+        else
+          format.html { redirect_to :list_account_appointments_path, notice: 'Appointment was successfully created.' }
+        end
 
-        format.html { redirect_to :list_account_appointments_path, notice: 'Appointment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @appointment }
       else
         format.html { render action: 'new' }

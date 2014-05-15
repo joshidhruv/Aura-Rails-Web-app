@@ -17,7 +17,7 @@
       $('.step-1 tr').not('#service-row-'+id).addClass('hide');
 
       // change "book now" button to "change"
-      $('#service-button-'+id).removeClass('btn-success').addClass('btn-danger').text('Change');
+      $('#service-button-'+id).removeClass('btn-success').addClass('btn-danger').addClass('change').text('Change');
 
       // set service_id in form
       $('#new_appointment #appointment_service_id').val(id);
@@ -68,15 +68,26 @@
               } else {
                   timeslot_html += '>';
               }
-              timeslot_html += '<a href="#">' + timeslot.display_time + '</a></li>';
+              timeslot_html += '<a class="choose-timeslot" href="#" data-datetime_begin="' + timeslot.display_datetime + '">' + timeslot.display_time + '</a></li>';
               $('#available_times').append(timeslot_html);
           });
 
+          // after available timeslots have been rendered, bind their clicks
+          bindAvailableTimes();
       });
 
+  }
 
-
-      //console.log(dayOfWeek);
+  function bindAvailableTimes(){
+      $(".choose-timeslot").on('click', function(e){
+          e.preventDefault();
+          // copy selected timeslot info to form input
+          $('#appointment_datetime_begin').val($(this).attr('data-datetime_begin'));
+          // clear active form all other timeslots
+          $(".choose-timeslot").parent().removeClass("active");
+          $(this).parent().addClass('active');
+      });
+      $(".choose-timeslot").first().click();
   }
 
   $(document).ready(function() {
@@ -87,6 +98,13 @@
             $('#signup-form').removeClass('hide');
         }
     });
+
+      $('#go-to-step-3').on('click',function(e){
+        // hide step 2
+          $('#step-2-body').addClass('hide');
+          // show step 3
+          $('.step-3').removeClass('hide');
+      });
 
     $('#appointment-datepicker').datepicker({
         onSelect: showAvailableTimes,
@@ -149,57 +167,89 @@
   <div class="panel panel-default">
     <!-- Default panel contents -->
     <div class="panel-heading"><h2>Step 2: Choose appointment time</h2></div>
-    <div class="panel-body">
-        <div class="col-sm-1"></div>
-        <div class="col-sm-3">
+    <div id="step-2-body" class="panel-body">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-4">
+          <!-- day of the week and Open and Closed -->
+          <h3>
+            <span id="step-2-day-of-week"></span> <span id="step-2-date"></span>
+          </h3>
+          <h4>
+            <div id="step-2-hours">Open <span id="step-2-open"></span> to <span id="step-2-close"></span></div><div id="step-2-hours-closed"> Closed</div>
+          </h4>
           <!-- datepicker -->
           <div class="row"><div id="appointment-datepicker"></div></div>
-          <dic class="row">
-            <div>
-              <%= form_for(@appointment) do |f| %>
-                <div class="row">
-                  <%= f.hidden_field :service_id %>
-                  <%= f.hidden_field :company_id, :value => @company.id %>
-                  <%= f.hidden_field :location_id %>
-                  <%= f.hidden_field :guest_id, :value => user_signed_in? ? current_user.id : '' %>
-                  <%= f.label :host_id%>
-                  <%= f.text_field :host_id%>
-                  <%= f.label :datetime_begin%>
-                  <%= f.text_field :datetime_begin%>
-                  <%= f.submit%>
-                </div>
-              <% end %>
-            </div>
-          </dic>
       </div>
       <div class="col-sm-4">
-        <!-- day of the week and Open and Closed -->
-        <h3>
-            <span id="step-2-day-of-week"></span> <span id="step-2-date"></span>
-        </h3>
-        <h4>
-            <div id="step-2-hours">Open <span id="step-2-open"></span> to <span id="step-2-close"></span></div><div id="step-2-hours-closed"> Closed</div>
-        </h4>
+
 
         <div class="panel panel-success">
           <!-- Default panel contents -->
           <div class="panel-heading">Available Appointments</div>
           <div class="panel-body">
-            <ul id="available_times" class="nav nav-pills">
-
-            </ul>
+            <ul id="available_times" class="nav nav-pills"></ul>
+          </div>
+          <div class="panel-footer">
+            <button id="go-to-step-3" class="btn btn-success">Next Step</button>
           </div>
         </div>
       </div>
-
-      <div class="col-sm-4">
-        <div id="signup-form" class="hide">
-          You need to register for an account to proceed.
-          <button>sign up</button>
-        </div>
-
-      </div>
-
     </div>
   </div>
+</div>
+
+<div class="step-3 hide">
+    <div class="panel panel-default">
+      <!-- Default panel contents -->
+      <div class="panel-heading"><h2>Step 3: Confirm</h2></div>
+      <div class="panel-body">
+
+          <div>
+            <%= form_for(@appointment) do |f| %>
+                <input type="hidden" id="returnUrl" name="returnUrl" value="/">
+
+                <div class="row">
+                  <div class="col-sm-4">
+                        <%= f.label :host_id%>
+                        <%= f.select :host_id, options_for_select(@staff, f.object.host_id), :prompt => "Choose a professional"  %>
+                  </div>
+                  <div class="col-sm-4">
+                        <% if user_signed_in? %>
+                            <h3>Your Information</h3>
+                            <%= current_user.fullname %><br/>
+                            <%= current_user.email %><br/>
+
+                            <%= f.hidden_field :guest_id, :value => current_user.id %>
+                        <% else %>
+                            <input type="hidden" id="newGuestCheck" name="newGuest" value="1">
+                            <h3>You must be signed in to proceed</h3>
+                            To create a new account, fill out your name and email, and we'll send you a password to login
+                            <%= fields_for(@newGuest) do |g| %>
+                                <%= g.label :email %>
+                                <%= g.text_field :email %>
+                                <%= g.label :first_name %>
+                                <%= g.text_field :first_name %>
+                                <%= g.label :last_name %>
+                                <%= g.text_field :last_name %>
+                            <% end %>
+                        <% end %>
+                   </div>
+                   <div class="col-sm-4">
+                        <%= f.hidden_field :service_id %>
+                        <%= f.hidden_field :company_id, :value => @company.id %>
+                        <%= f.hidden_field :location_id %>
+                        <%= f.hidden_field :datetime_begin%>
+
+                        <%= f.submit 'Confirm This Appointment', :class => 'btn btn-success btn-large'%>
+                    </div>
+                </div>
+            <% end %>
+          </div>
+          <div id="signup-form" class="hide">
+
+          </div>
+
+        </div>
+      </div>
+    </div>
 </div>

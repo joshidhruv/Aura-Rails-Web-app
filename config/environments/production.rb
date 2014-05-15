@@ -77,4 +77,24 @@ TeamAura::Application.configure do
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
   config.log_formatter = ::Logger::Formatter.new
+
+
+  # Don't care if the mailer can't send.
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.default_options = {from: 'aura.planning@gmail.com'}
+
+  # Print deprecation notices to the Rails logger.
+  config.active_support.deprecation = :log
+
+  # Raise an error on page load if there are pending migrations
+  config.active_record.migration_error = :page_load
+  config.action_mailer.smtp_settings = {
+      enable_starttls_auto: true,
+      address: 'smtp.gmail.com',
+      port: 587,
+      authentication: 'plain',
+      user_name: 'aura.planning@gmail.com',
+      password: 'TeamAura'
+  }
 end
