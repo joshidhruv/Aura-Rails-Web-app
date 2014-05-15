@@ -28,12 +28,15 @@
     <th>Guest</th>
     <th>Guest Email</th>
     <th>Status</th>
+    <th>Payments</th>
+    <th>    </th>
     <th></th>
     <th></th>
   </tr>
   </thead>
 
   <tbody>
+
   <% if !@appointments.nil?
        @appointments.each do |appt|
         if appt.cancelled
@@ -53,12 +56,21 @@
             <td><%= appt.host_id.nil? ? '' : appt.host.fullname %></td>
             <td><%= appt.guest_id.nil? ? '' : appt.guest.fullname %></td>
             <td><%= appt.guest_id.nil? ? '' : appt.guest.email %></td>
+
             <td><%= @status %></td>
+            <td><% if appt.payments.nil? || appt.payments.count < 1 %>
+                  <%= link_to 'Add Payment', '/appointments/'+appt.id.to_s+'/payment/' %>
+                    <% else %>
+                    <span class='badge badge-success'>Paid</span>
+
+              <% end %></td>
             <td><% if @status == 'pending' %>
                   <%= link_to 'Approve', '/account/appointments/approve/'+appt.id.to_s %>
                 <% end %>
+
             </td>
             <td><%= link_to 'Edit', '/account/appointments/edit/'+appt.id.to_s %> <%= link_to 'Destroy', '/account/appointments/delete/'+appt.id.to_s, data: { confirm: 'Are you sure?' } %></td>
+
           </tr>
       <%  end
           end %>
