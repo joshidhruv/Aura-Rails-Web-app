@@ -68,6 +68,7 @@ TeamAura::Application.routes.draw do
 
   get '/payment/:payment_id', :to => 'payment#index', :as => :payment_to_show_appointment
   post '/payments/:id', :to => 'payment#thankyou', :as => :payment_to_thankyou
+  get '/appointments/:appointment_id/payment', :to => 'payments#new', :as => :appointments_to_payment
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

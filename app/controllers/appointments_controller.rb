@@ -9,6 +9,10 @@ class AppointmentsController < ApplicationController
   # GET /appointments.json
   def index
     @appointments = Appointment.where company_id: current_user.company_id
+
+    @appointments.each do |a|
+      puts "*****************" + a.payments.count.to_s
+    end
   end
 
   # GET /appointments/1

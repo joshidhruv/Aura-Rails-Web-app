@@ -12,14 +12,31 @@
   <% end %>
 
   <div class="actions">
-    <%= f.label :appointment_id %>
-    <%= f.text_field :appointment_id %>
-    <%= f.label :cost %>
-    <%= f.text_field :cost %>
-    <%= f.label :status %>
-    <%= f.radio_button(:status, 'true')%>
+    <% if @appointment.nil? %>
+        <%= f.label :appointment_id %>
+        <%= f.text_field :appointment_id %>
+    <% else %>
+        Host: <%= @appointment.host.fullname %><br/>
+        Guest Name: <%= @appointment.guest.fullname %><br/>
+        Service: <%= @appointment.service.name %><br/>
+        Location: <%= @appointment.location.name %><br/>
+        Time:  <%= @appointment.datetime_begin %><br/>
+
+            <%= f.hidden_field :appointment_id, :value => @appointment.id %>
+    <% end %>
 
 
-    <%= f.submit %>
+    <% if @appointment.nil? %>
+        <%= f.text_field :cost %><br/>
+    <% else %>
+       <h3> <%= number_to_currency(@appointment.cost) %></h3>
+       <br> <%= f.hidden_field :cost, :value => @appointment.cost %>
+    <% end %>
+
+
+    <%= f.hidden_field :status, :value => true %>
+
+
+    <%= f.submit :value => 'Submit Payment' %>
   </div>
 <% end %>
