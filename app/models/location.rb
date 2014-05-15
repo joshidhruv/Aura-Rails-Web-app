@@ -54,7 +54,7 @@ class Location < ActiveRecord::Base
     while @beginHalfhour < @datetime_close do
       # find end of slot
       @endHalfhour = @beginHalfhour.advance(:minutes => +30)
-      @timeslots << {'datetime_begin'=>@beginHalfhour, 'datetime_end'=>@endHalfhour, 'display_time'=>@beginHalfhour.strftime('%l:%M%P'), 'display_date'=>@beginHalfhour.strftime('%m/%d/%Y'), 'available'=>true} #.strftime('%l:%M%P')
+      @timeslots << {'datetime_begin'=>@beginHalfhour, 'datetime_end'=>@endHalfhour, 'display_time'=>@beginHalfhour.strftime('%l:%M%P'), 'display_datetime'=>@beginHalfhour.strftime('%m/%d/%Y %H:%M'), 'display_date'=>@beginHalfhour.strftime('%m/%d/%Y'), 'available'=>true} #.strftime('%l:%M%P')
       @beginHalfhour = @endHalfhour
     end
 
