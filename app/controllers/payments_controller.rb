@@ -15,6 +15,7 @@ class PaymentsController < ApplicationController
   # GET /payments/new
   def new
     @payment = Payment.new
+    @appointment = Appointment.find(params[:appointment_id])
   end
 
   # GET /payments/1/edit
@@ -28,7 +29,7 @@ class PaymentsController < ApplicationController
 
     respond_to do |format|
       if @payment.save
-        format.html { redirect_to @payment, notice: 'Payment was successfully created.' }
+        format.html { render action:'thankyou', notice: 'Payment was successfully created.' }
         format.json { render action: 'show', status: :created, location: @payment }
         format.json { render action:'post',location: @payment  }
       else

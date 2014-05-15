@@ -1,41 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<table>
-  <thead>
-  <tr>
-    <th>Payment id:</th>
-    <th>Appointment id:</th>
-    <th>Cost</th>
-    <th>Status</th>
-  </tr>
-  </thead>
 
-  <tbody>
-  <% %>
-      <tr>
-
-        <td><% %></td>
-        <td><% %></td>
-        <td><% %></td>
-        <td><% %></td>
-
-      </tr>
-  <%  %>
-
-  </tbody>
-</table>
-
-<%= @padam = '/payments/'+ @payment.id.to_s   %>
-<form action="<%= @padam  %> " method="POST">
-  <script
-  src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-  data-key="pk_test_yxRttiCaEhfqutnmLEGGSzdF"
-  data-amount="2000"
-  data-name="Aura"
-  data-description="2 widgets ($20.00)"
-  data-image="/aura-logo.jpg">
-  </script>
-</form>
 
 <%= link_to 'Edit', edit_payment_path(@payment) %> |
 <%= link_to 'Back', payments_path %>

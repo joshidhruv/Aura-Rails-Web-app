@@ -4,7 +4,7 @@ class Appointment < ActiveRecord::Base
   belongs_to :service
   belongs_to :location
   belongs_to :company
-
+  has_many :payments
   validates :company_id, :presence => true
   validates :host_id, :presence => true
   validates :guest_id, :presence => true
